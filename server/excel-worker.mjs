@@ -1,0 +1,9 @@
+import {parentPort,workerData} from 'node:worker_threads';
+import {readSheet as readXlsx} from 'read-excel-file/node';
+import {unzipSync} from 'fflate';
+export function inspectZip(buffer){
+ let end=-1;for(let i=buffer.length-22;i>=Math.max(0,buffer.length-65557);i--)if(buffer.readUInt32LE(i)===0x06054b50){end=i;break;}if(end<0)throw new Error('XLSX ZIP tuzilishi noto‘g‘ri.');const count=buffer.readUInt16LE(end+10);let pos=buffer.readUInt32LE(end+16),total=0;if(count>300)throw new Error('Arxivda fayllar juda ko‘p.');
+ for(let n=0;n<count;n++){if(pos+46>buffer.length||buffer.readUInt32LE(pos)!==0x02014b50)throw new Error('ZIP katalogi noto‘g‘ri.');const size=buffer.readUInt32LE(pos+24),nameLen=buffer.readUInt16LE(pos+28);total+=size;if(size>8*1024*1024||total>24*1024*1024)throw new Error('Ochilgan arxiv hajmi limitdan oshgan.');const name=buffer.subarray(pos+46,pos+46+nameLen).toString();if(/vba|macro|externalLink|\.\.\//i.test(name))throw new Error('Makro va tashqi bog‘lanishli fayllar qabul qilinmaydi.');pos+=46+nameLen+buffer.readUInt16LE(pos+30)+buffer.readUInt16LE(pos+32);}
+ const entries=unzipSync(buffer);for(const [name,data]of Object.entries(entries))if(/\.xml$|\.rels$/i.test(name)){const xml=Buffer.from(data).toString();if(/<!DOCTYPE|<!ENTITY|TargetMode\s*=\s*["']External["']|<f[\s>]/i.test(xml))throw new Error('Formula, tashqi link yoki DTD bilan import taqiqlangan. Qiymatlar nusxasini yuboring.');}return entries;
+}
+if(parentPort){try{const buffer=Buffer.from(workerData.base64,'base64');inspectZip(buffer);const rows=await readXlsx(buffer,1);if(rows.length>1001)throw new Error('Bitta import 1000 qatorgacha. Faylni qismlarga ajrating.');if(!rows.length||rows[0].length>100)throw new Error('Ustunlar soni noto‘g‘ri.');parentPort.postMessage({rows:rows.map(row=>row.map(v=>v instanceof Date?v.toISOString().slice(0,10):v))});}catch(e){parentPort.postMessage({error:e.message});}}

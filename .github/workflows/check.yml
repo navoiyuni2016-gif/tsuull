@@ -1,0 +1,26 @@
+name: ERP checks
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: erp_test
+          POSTGRES_USER: erp
+          POSTGRES_PASSWORD: ci-only-isolated-test-password
+        ports: ['5432:5432']
+        options: --health-cmd 'pg_isready -U erp' --health-interval 5s --health-timeout 5s --health-retries 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm audit --omit=dev
+      - run: npm test
+        env:
+          TEST_DATABASE_URL: postgresql://erp:ci-only-isolated-test-password@127.0.0.1:5432/erp_test
+      - run: docker build -t erp-check .

@@ -1,0 +1,14 @@
+.git
+node_modules
+.env
+.env.*
+backups
+artifacts
+prototype
+tests
+attachments
+*.zip
+images/
+deploy/certs/
+.deploy-mode
+.deploy-lock/

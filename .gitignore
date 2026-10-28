@@ -1,0 +1,16 @@
+node_modules/
+.env
+.env.*
+!.env.example
+backups/
+artifacts/
+*.log
+.deploy-mode
+.deploy-lock/
+deploy/certs/
+images/*.tar
+images/*.tar.gz
+images/*.sha256
+images/runtime-manifest.json
+images/runtime-manifest.txt
+.env.new.*

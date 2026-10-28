@@ -1,0 +1,2923 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "TSUULL Academic Registry API",
+    "version": "3.0.0",
+    "description": "Configurable academic registry. Superadmin enters parameters; independent approver activates typed rules. Server faculty/department/year scoping. No normative defaults."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "security": [
+    {
+      "session": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "session": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-erp_session"
+      },
+      "csrf": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-CSRF-Token"
+      }
+    },
+    "schemas": {
+      "AcademicParameters": {
+        "type": "object",
+        "required": [
+          "hoursPerCredit",
+          "contactBasisPoints",
+          "lectureBasisPoints",
+          "practiceBasisPoints",
+          "seminarBasisPoints",
+          "labBasisPoints",
+          "individualBasisPoints",
+          "practiceGroupMax",
+          "lectureStreamMax",
+          "seminarGroupMax",
+          "labGroupMax",
+          "individualUnit",
+          "roundingPlaces",
+          "roundingMode",
+          "remainderActivity",
+          "teacherAnnualLimit",
+          "termCreditLimit",
+          "programCredits",
+          "termCount"
+        ],
+        "properties": {
+          "hoursPerCredit": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,4})?$"
+          },
+          "contactBasisPoints": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "lectureBasisPoints": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "practiceBasisPoints": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "seminarBasisPoints": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "labBasisPoints": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "individualBasisPoints": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 10000
+          },
+          "practiceGroupMax": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "lectureStreamMax": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "seminarGroupMax": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "labGroupMax": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "individualUnit": {
+            "enum": [
+              "PER_STUDENT",
+              "PER_GROUP"
+            ]
+          },
+          "roundingPlaces": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4
+          },
+          "roundingMode": {
+            "enum": [
+              "HALF_UP",
+              "UP",
+              "DOWN"
+            ]
+          },
+          "remainderActivity": {
+            "enum": [
+              "lecture",
+              "practice",
+              "seminar",
+              "lab",
+              "individual"
+            ]
+          },
+          "teacherAnnualLimit": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,4})?$"
+          },
+          "termCreditLimit": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,4})?$"
+          },
+          "programCredits": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]{1,4})?$"
+          },
+          "termCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        }
+      },
+      "faculties": {
+        "type": "object",
+        "required": [
+          "code",
+          "name"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Fakultet kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Fakultet nomi"
+          }
+        }
+      },
+      "departments": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "faculty"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Kafedra kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Kafedra nomi"
+          },
+          "faculty": {
+            "type": "string",
+            "description": "Fakultet"
+          }
+        }
+      },
+      "years": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "start",
+          "end"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "O‘quv yili (2026/2027)"
+          },
+          "name": {
+            "type": "string",
+            "description": "Davr nomi"
+          },
+          "start": {
+            "type": "string",
+            "description": "Boshlanish sanasi",
+            "format": "date"
+          },
+          "end": {
+            "type": "string",
+            "description": "Tugash sanasi",
+            "format": "date"
+          },
+          "periodState": {
+            "enum": [
+              "OPEN",
+              "LOCKED"
+            ]
+          }
+        }
+      },
+      "subjects": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "department",
+          "credits",
+          "category",
+          "language"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Fan kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Fan nomi"
+          },
+          "department": {
+            "type": "string",
+            "description": "Mas’ul kafedra"
+          },
+          "credits": {
+            "type": "string",
+            "description": "Kredit"
+          },
+          "category": {
+            "enum": [
+              "Majburiy",
+              "Tanlov"
+            ]
+          },
+          "language": {
+            "type": "string",
+            "description": "O‘qitish tili"
+          },
+          "prerequisiteCodes": {
+            "type": "string",
+            "description": "Oldindan talab fan kodlari (vergul bilan)"
+          }
+        }
+      },
+      "curricula": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "year",
+          "department",
+          "level",
+          "mode",
+          "source"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Reja kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Ta’lim dasturi"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili"
+          },
+          "department": {
+            "type": "string",
+            "description": "Mas’ul kafedra"
+          },
+          "level": {
+            "enum": [
+              "Bakalavriat",
+              "Magistratura"
+            ]
+          },
+          "mode": {
+            "enum": [
+              "Kunduzgi",
+              "Kechki",
+              "Sirtqi",
+              "Masofaviy"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "description": "Manba hujjat identifikatori"
+          },
+          "rule": {
+            "type": "string",
+            "description": "Hisoblash me’yori"
+          },
+          "onDate": {
+            "type": "string",
+            "description": "Hisob sanasi",
+            "format": "date"
+          }
+        }
+      },
+      "groups": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "year",
+          "department",
+          "students",
+          "kind"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Guruh kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Guruh / potok nomi"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili"
+          },
+          "department": {
+            "type": "string",
+            "description": "Kafedra"
+          },
+          "students": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000
+          },
+          "kind": {
+            "enum": [
+              "Akademik guruh",
+              "Ma’ruza potoki",
+              "Laboratoriya kichik guruhi"
+            ]
+          }
+        }
+      },
+      "teachers": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "department",
+          "qualification",
+          "language"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Xodim kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "F.I.Sh."
+          },
+          "department": {
+            "type": "string",
+            "description": "Kafedra"
+          },
+          "qualification": {
+            "type": "string",
+            "description": "Lavozim / malaka"
+          },
+          "language": {
+            "type": "string",
+            "description": "O‘qitish tili"
+          },
+          "competenceCodes": {
+            "type": "string",
+            "description": "Vakolatli fan kodlari (vergul bilan)"
+          },
+          "capacityHours": {
+            "type": "string",
+            "description": "Tasdiqlangan individual yillik limit, soat"
+          },
+          "capacityBasis": {
+            "type": "string",
+            "description": "Individual limit uchun manba"
+          }
+        }
+      },
+      "workloads": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "year",
+          "subject",
+          "group",
+          "teacher",
+          "activity",
+          "hours",
+          "source"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Biriktirish kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Mashg‘ulot nomi"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Fan"
+          },
+          "group": {
+            "type": "string",
+            "description": "Guruh / potok"
+          },
+          "teacher": {
+            "type": "string",
+            "description": "O‘qituvchi"
+          },
+          "activity": {
+            "enum": [
+              "Ma’ruza",
+              "Amaliy",
+              "Seminar",
+              "Laboratoriya"
+            ]
+          },
+          "hours": {
+            "type": "string",
+            "description": "Loyiha soati"
+          },
+          "source": {
+            "type": "string",
+            "description": "Hisoblash / manba hujjat ID"
+          },
+          "rule": {
+            "type": "string",
+            "description": "Hisoblash me’yori"
+          },
+          "onDate": {
+            "type": "string",
+            "description": "Hisob sanasi",
+            "format": "date"
+          }
+        }
+      },
+      "tasks": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "year",
+          "department",
+          "owner",
+          "due",
+          "progress"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Vazifa kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Vazifa nomi"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili"
+          },
+          "department": {
+            "type": "string",
+            "description": "Kafedra"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Mas’ul"
+          },
+          "due": {
+            "type": "string",
+            "description": "Bajarish muddati",
+            "format": "date"
+          },
+          "progress": {
+            "enum": [
+              "Rejalangan",
+              "Jarayonda",
+              "Bajarildi — tekshirilmagan",
+              "Bloklangan"
+            ]
+          },
+          "evidence": {
+            "type": "string",
+            "description": "Dalil hujjat identifikatori"
+          }
+        }
+      },
+      "reports": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "year",
+          "department",
+          "periodStart",
+          "periodEnd",
+          "source",
+          "summary"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Hisobot kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Hisobot nomi"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili"
+          },
+          "department": {
+            "type": "string",
+            "description": "Kafedra"
+          },
+          "periodStart": {
+            "type": "string",
+            "description": "Davr boshi",
+            "format": "date"
+          },
+          "periodEnd": {
+            "type": "string",
+            "description": "Davr oxiri",
+            "format": "date"
+          },
+          "source": {
+            "type": "string",
+            "description": "Manba hujjat ID"
+          },
+          "summary": {
+            "type": "string",
+            "description": "Hisobot xulosasi"
+          }
+        }
+      },
+      "rules": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "legalBasis",
+          "effectiveFrom",
+          "effectiveTo",
+          "scope",
+          "parameters"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Me’yor kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Me’yor nomi"
+          },
+          "legalBasis": {
+            "type": "string",
+            "description": "Huquqiy asos va band"
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "description": "Amal qilish boshlanishi",
+            "format": "date"
+          },
+          "effectiveTo": {
+            "type": "string",
+            "description": "Amal qilish oxiri",
+            "format": "date"
+          },
+          "scope": {
+            "type": "string",
+            "description": "Qo‘llanish doirasi"
+          },
+          "parameters": {
+            "type": "string",
+            "description": "Parametrlar va birliklar (hujjatlashtirish)"
+          },
+          "department": {
+            "type": "string",
+            "description": "Kafedra doirasi (bo‘sh — umumiy)"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili doirasi (bo‘sh — umumiy)"
+          },
+          "calculation": {
+            "$ref": "#/components/schemas/AcademicParameters"
+          }
+        }
+      },
+      "schedule": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "group",
+          "teacher",
+          "date",
+          "start",
+          "end",
+          "room",
+          "capacity"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Mashg‘ulot kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Mashg‘ulot nomi"
+          },
+          "group": {
+            "type": "string",
+            "description": "Guruh"
+          },
+          "teacher": {
+            "type": "string",
+            "description": "O‘qituvchi"
+          },
+          "date": {
+            "type": "string",
+            "description": "Sana",
+            "format": "date"
+          },
+          "start": {
+            "type": "string",
+            "description": "Boshlanish vaqti"
+          },
+          "end": {
+            "type": "string",
+            "description": "Tugash vaqti"
+          },
+          "room": {
+            "type": "string",
+            "description": "Auditoriya"
+          },
+          "capacity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          }
+        }
+      },
+      "syllabus": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "subject",
+          "year",
+          "source",
+          "version"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Hujjat kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Hujjat nomi"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Fan"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili"
+          },
+          "source": {
+            "type": "string",
+            "description": "Hujjat identifikatori"
+          },
+          "version": {
+            "type": "string",
+            "description": "Hujjat versiyasi"
+          }
+        }
+      },
+      "practice": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "group",
+          "start",
+          "end",
+          "owner",
+          "organization",
+          "source"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Amaliyot kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Amaliyot nomi"
+          },
+          "group": {
+            "type": "string",
+            "description": "Guruh"
+          },
+          "start": {
+            "type": "string",
+            "description": "Boshlanish sanasi",
+            "format": "date"
+          },
+          "end": {
+            "type": "string",
+            "description": "Tugash sanasi",
+            "format": "date"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Mas’ul"
+          },
+          "organization": {
+            "type": "string",
+            "description": "Hamkor tashkilot"
+          },
+          "source": {
+            "type": "string",
+            "description": "Dastur hujjat ID"
+          }
+        }
+      },
+      "quality": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "department",
+          "finding",
+          "owner",
+          "due"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Kuzatuv kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Kuzatuv mavzusi"
+          },
+          "department": {
+            "type": "string",
+            "description": "Kafedra"
+          },
+          "finding": {
+            "type": "string",
+            "description": "Kuzatuv xulosasi"
+          },
+          "owner": {
+            "type": "string",
+            "description": "Mas’ul"
+          },
+          "due": {
+            "type": "string",
+            "description": "Tuzatish muddati",
+            "format": "date"
+          },
+          "evidence": {
+            "type": "string",
+            "description": "Dalil ID"
+          }
+        }
+      },
+      "plan_items": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "curriculum",
+          "subject",
+          "semester"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Qator kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Qator nomi"
+          },
+          "curriculum": {
+            "type": "string",
+            "description": "O‘quv reja"
+          },
+          "subject": {
+            "type": "string",
+            "description": "Fan"
+          },
+          "semester": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20
+          }
+        }
+      },
+      "actuals": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "workload",
+          "date",
+          "hours",
+          "evidence"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Dalil kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Bajarilgan ish"
+          },
+          "workload": {
+            "type": "string",
+            "description": "Tasdiqlangan yuklama"
+          },
+          "date": {
+            "type": "string",
+            "description": "Bajarilgan sana",
+            "format": "date"
+          },
+          "hours": {
+            "type": "string",
+            "description": "Bajarilgan akademik soat"
+          },
+          "evidence": {
+            "type": "string",
+            "description": "Dalil fayl ID / hujjat identifikatori"
+          },
+          "comment": {
+            "type": "string",
+            "description": "Izoh"
+          }
+        }
+      },
+      "work_types": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "unit",
+          "rate",
+          "legalBasis",
+          "effectiveFrom",
+          "effectiveTo"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Ish turi kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Ish turi nomi"
+          },
+          "unit": {
+            "enum": [
+              "PER_STUDENT",
+              "PER_GROUP",
+              "PER_EVENT",
+              "FIXED_HOURS"
+            ]
+          },
+          "rate": {
+            "type": "string",
+            "description": "Birlik uchun soat"
+          },
+          "legalBasis": {
+            "type": "string",
+            "description": "Huquqiy asos"
+          },
+          "effectiveFrom": {
+            "type": "string",
+            "description": "Amal qilish boshlanishi",
+            "format": "date"
+          },
+          "effectiveTo": {
+            "type": "string",
+            "description": "Amal qilish oxiri",
+            "format": "date"
+          }
+        }
+      },
+      "additional_work": {
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "year",
+          "department",
+          "teacher",
+          "workType",
+          "quantity",
+          "date",
+          "source"
+        ],
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Ish kodi"
+          },
+          "name": {
+            "type": "string",
+            "description": "Ish nomi"
+          },
+          "year": {
+            "type": "string",
+            "description": "O‘quv yili"
+          },
+          "department": {
+            "type": "string",
+            "description": "Kafedra"
+          },
+          "teacher": {
+            "type": "string",
+            "description": "O‘qituvchi"
+          },
+          "workType": {
+            "type": "string",
+            "description": "Tasdiqlangan ish turi"
+          },
+          "quantity": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100000
+          },
+          "date": {
+            "type": "string",
+            "description": "Hisob sanasi",
+            "format": "date"
+          },
+          "source": {
+            "type": "string",
+            "description": "Manba hujjat ID"
+          },
+          "rule": {
+            "type": "string",
+            "description": "Yillik yuklama limit me’yori"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/health/live": {
+      "get": {
+        "summary": "Liveness",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "security": []
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "summary": "Database readiness",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/login": {
+      "post": {
+        "summary": "Password login",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "password": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "otp": {
+                    "type": "string",
+                    "description": "TOTP or unused recovery code when MFA enabled"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me": {
+      "get": {
+        "summary": "Session user and CSRF token",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        }
+      }
+    },
+    "/api/logout": {
+      "post": {
+        "summary": "Invalidate current session",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ]
+      }
+    },
+    "/api/password": {
+      "post": {
+        "summary": "Change password and invalidate all sessions",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "currentPassword",
+                  "newPassword"
+                ],
+                "properties": {
+                  "currentPassword": {
+                    "type": "string"
+                  },
+                  "newPassword": {
+                    "type": "string",
+                    "minLength": 14,
+                    "maxLength": 200
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ]
+      }
+    },
+    "/api/users": {
+      "get": {
+        "summary": "List users — ADMIN only",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create user — ADMIN only",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "201": {
+            "description": "Created record"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "name",
+                  "role",
+                  "password"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "role": {
+                    "enum": [
+                      "ADMIN",
+                      "OPERATOR",
+                      "APPROVER",
+                      "AUDITOR"
+                    ]
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 14,
+                    "maxLength": 200
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ]
+      }
+    },
+    "/api/audit": {
+      "get": {
+        "summary": "Latest 200 audit events",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        }
+      }
+    },
+    "/api/records": {
+      "get": {
+        "summary": "Legacy filtered array (10000 cap), or paged=1 authorized immutable in-memory read snapshot",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "paged",
+            "schema": {
+              "enum": [
+                "1"
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "snapshot",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          {
+            "in": "query",
+            "name": "module",
+            "schema": {
+              "enum": [
+                "faculties",
+                "departments",
+                "years",
+                "subjects",
+                "curricula",
+                "groups",
+                "teachers",
+                "workloads",
+                "tasks",
+                "reports",
+                "rules",
+                "schedule",
+                "syllabus",
+                "practice",
+                "quality",
+                "plan_items",
+                "actuals",
+                "work_types",
+                "additional_work"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "/api/records/{module}": {
+      "post": {
+        "summary": "Create draft; rules require ADMIN",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "201": {
+            "description": "Created record"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "parameters": [
+          {
+            "name": "module",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "enum": [
+                "faculties",
+                "departments",
+                "years",
+                "subjects",
+                "curricula",
+                "groups",
+                "teachers",
+                "workloads",
+                "tasks",
+                "reports",
+                "rules",
+                "schedule",
+                "syllabus",
+                "practice",
+                "quality"
+              ]
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ]
+      }
+    },
+    "/api/records/{id}": {
+      "put": {
+        "summary": "Update draft with optimistic lock",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "data",
+                  "revision"
+                ],
+                "properties": {
+                  "data": {
+                    "type": "object"
+                  },
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ]
+      }
+    },
+    "/api/records/{id}/versions": {
+      "get": {
+        "summary": "Immutable record history",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ]
+      }
+    },
+    "/api/records/{id}/workflow": {
+      "post": {
+        "summary": "Submit, reject, or approve a rule document",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "422": {
+            "description": "Official academic approval blocked"
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "action",
+                  "revision",
+                  "reason"
+                ],
+                "properties": {
+                  "action": {
+                    "enum": [
+                      "submit",
+                      "approve",
+                      "reject"
+                    ]
+                  },
+                  "revision": {
+                    "type": "integer"
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 5,
+                    "maxLength": 1000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ]
+      }
+    },
+    "/api/simulate": {
+      "post": {
+        "summary": "Demo-only fixed-point calculation",
+        "responses": {
+          "200": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "400": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "401": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "403": {
+            "description": "JSON result; errors use {error: string}"
+          },
+          "409": {
+            "description": "JSON result; errors use {error: string}"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "credits",
+                  "hoursPerCredit",
+                  "groups",
+                  "lectureStreams",
+                  "contactBasisPoints",
+                  "lectureBasisPoints"
+                ],
+                "properties": {
+                  "credits": {
+                    "type": "string"
+                  },
+                  "hoursPerCredit": {
+                    "type": "string"
+                  },
+                  "groups": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "lectureStreams": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "contactBasisPoints": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10000
+                  },
+                  "lectureBasisPoints": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 10000
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ]
+      }
+    },
+    "/api/settings": {
+      "get": {
+        "summary": "Institution profile and revision",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      },
+      "put": {
+        "summary": "Superadmin institution profile save with optimistic lock",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/profile": {
+      "get": {
+        "summary": "Personal profile",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      },
+      "put": {
+        "summary": "Update own display name",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/users/{id}/access": {
+      "put": {
+        "summary": "Admin role/active/faculty/department/year scope; revoke sessions",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/users/{id}/reset-password": {
+      "post": {
+        "summary": "Admin password reset with reauthentication",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/mfa/status": {
+      "get": {
+        "summary": "TOTP and encryption configuration state",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/mfa/begin": {
+      "post": {
+        "summary": "Begin TOTP enrollment with password",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/mfa/confirm": {
+      "post": {
+        "summary": "Confirm TOTP and return one-time recovery codes",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/mfa/disable": {
+      "post": {
+        "summary": "Disable TOTP with password and fresh OTP",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/calculate": {
+      "post": {
+        "summary": "Institutional calculation from approved typed rule, subject, group, date",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/records/{id}/revision": {
+      "post": {
+        "summary": "New editable revision without altering historical record",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/curricula/{id}/generate": {
+      "post": {
+        "summary": "Prerequisite and credit constrained semester recommendation; explicit commit",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/forecast": {
+      "post": {
+        "summary": "Advisory subject-contingent capacity scenario",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/recommendations": {
+      "get": {
+        "summary": "Teacher eligibility and remaining-capacity suggestions",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/years/{id}/lock": {
+      "post": {
+        "summary": "Academic approver locks year with reason",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/notifications": {
+      "get": {
+        "summary": "Scoped pending approvals and overdue tasks",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/files": {
+      "post": {
+        "summary": "5MB evidence upload as base64 with recordId",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/records/{id}/files": {
+      "get": {
+        "summary": "Authorized record file metadata",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/files/{id}": {
+      "get": {
+        "summary": "Authorized attachment download",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/export/{module}": {
+      "get": {
+        "summary": "XLSX export with q/status filters or template=1",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "module",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/imports/inspect": {
+      "post": {
+        "summary": "Inspect macro/formula-free first XLSX sheet in bounded worker",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/imports/{id}/preview": {
+      "post": {
+        "summary": "Map column indexes and validate without business writes",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/imports/{id}/commit": {
+      "post": {
+        "summary": "Atomic idempotent import receipt",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/imports/{id}/cancel": {
+      "post": {
+        "summary": "Cancel pending import",
+        "security": [
+          {
+            "session": [],
+            "csrf": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/imports/{id}/source": {
+      "get": {
+        "summary": "Download original source XLSX for same actor and scope",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/imports": {
+      "get": {
+        "summary": "Own import history",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    },
+    "/api/analytics": {
+      "get": {
+        "summary": "Approved plan and verified actual totals",
+        "security": [
+          {
+            "session": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "201": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "400": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "401": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "403": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "409": {
+            "description": "JSON result. Errors return {error:string}."
+          },
+          "422": {
+            "description": "JSON result. Errors return {error:string}."
+          }
+        }
+      }
+    }
+  }
+}

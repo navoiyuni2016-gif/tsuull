@@ -1,0 +1,6 @@
+# Use a certificate supplied by the university instead of public ACME issuance.
+services:
+  caddy:
+    volumes:
+      - ./deploy/Caddyfile.cert:/etc/caddy/Caddyfile:ro
+      - ./deploy/certs:/etc/caddy/certs:ro

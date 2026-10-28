@@ -1,0 +1,8 @@
+{$ERP_DOMAIN} {
+	tls /etc/caddy/certs/fullchain.pem /etc/caddy/certs/privkey.pem
+	encode zstd gzip
+	request_body {
+		max_size 8MB
+	}
+	reverse_proxy app:8080
+}

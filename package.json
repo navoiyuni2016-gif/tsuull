@@ -1,0 +1,24 @@
+{
+  "name": "tsuull-oquv-erp",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "start": "node server/index.mjs",
+    "migrate": "node server/migrate.mjs",
+    "user:create": "node server/create-user.mjs",
+    "test": "node packages/domain/tests/core.test.mjs && node tests/academic.test.mjs && node tests/server.test.mjs && node tests/extended.test.mjs"
+  },
+  "dependencies": {
+    "express": "5.1.0",
+    "express-rate-limit": "8.7.1",
+    "fflate": "0.8.3",
+    "helmet": "8.1.0",
+    "pg": "8.16.3",
+    "read-excel-file": "9.3.13",
+    "write-excel-file": "4.1.1"
+  }
+}

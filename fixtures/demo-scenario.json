@@ -1,0 +1,26 @@
+{
+  "_warning": "Synthetic demo fixture. Not a complete legal load calculation.",
+  "input": {
+    "course_code": "DEMO-101",
+    "credits": "6",
+    "academic_hours_per_credit": "30",
+    "contact_ratio": "0.40",
+    "lecture_ratio_of_contact": "0.50",
+    "practice_ratio_of_contact": "0.50",
+    "lecture_streams": 1,
+    "practice_groups": 3,
+    "additional_normative_works": []
+  },
+  "expected": {
+    "student_total_hours": "180",
+    "student_contact_hours": "72",
+    "student_independent_hours": "108",
+    "lecture_hours_per_stream": "36",
+    "practice_hours_per_group": "36",
+    "department_lecture_teaching_hours": "36",
+    "department_practice_teaching_hours": "108",
+    "department_base_teaching_hours": "144",
+    "final_teacher_allocation_hours": null,
+    "note": "Final teacher load requires assignments and additional approved work types."
+  }
+}

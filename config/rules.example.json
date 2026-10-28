@@ -1,0 +1,18 @@
+{
+  "_warning": "DEMO ONLY. NOT LEGALLY APPROVED; DO NOT SEED IN PRODUCTION.",
+  "rule_set_code": "DEMO-BA-2026",
+  "version": "0.1.0-demo",
+  "state": "DRAFT",
+  "effective_from": null,
+  "legal_basis": "DEMO; institution-approved legal basis required",
+  "scope": {"study_level": "bachelor", "study_mode": "full_time", "program_id": null},
+  "parameters": [
+    {"key": "academic_hours_per_credit", "value": "30", "unit": "academic_hour/credit", "provenance": "demo"},
+    {"key": "contact_ratio", "value": "0.40", "unit": "fraction", "provenance": "demo"},
+    {"key": "lecture_contact_ratio", "value": "0.50", "unit": "fraction", "provenance": "demo"},
+    {"key": "practice_contact_ratio", "value": "0.50", "unit": "fraction", "provenance": "demo"}
+  ],
+  "rounding": {"mode": "HALF_UP", "increment": "1", "remainder_policy": "explicit_error_unless_configured"},
+  "constraints": {"lecture_stream_max_students": null, "practice_group_max_students": null, "lab_subgroup_max_students": null},
+  "approval": {"required": true, "approved_by": null, "approved_at": null}
+}
