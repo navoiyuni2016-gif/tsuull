@@ -2918,6 +2918,246 @@
           }
         }
       }
+    },
+    "/api/curricula/{id}/studio": {
+      "get": {
+        "summary": "Reja, faol qatorlar, tasdiqlangan fanlar va AI konfiguratsiya holati",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Muvaffaqiyatli"
+          },
+          "403": {
+            "description": "Vakolat yetarli emas"
+          },
+          "409": {
+            "description": "Versiya, hujjat yoki yil holati mos emas"
+          },
+          "422": {
+            "description": "Me’yor yoki fan tekshiruvi xatosi"
+          }
+        }
+      },
+      "put": {
+        "summary": "Reja qatorlarini atomar loyiha sifatida saqlash; olib tashlangan qatorlar tarixda qoladi",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Muvaffaqiyatli"
+          },
+          "403": {
+            "description": "Vakolat yetarli emas"
+          },
+          "409": {
+            "description": "Versiya, hujjat yoki yil holati mos emas"
+          },
+          "422": {
+            "description": "Me’yor yoki fan tekshiruvi xatosi"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "version": {
+                    "type": "string"
+                  },
+                  "items": {
+                    "type": "array",
+                    "maxItems": 500,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "subject",
+                        "semester"
+                      ],
+                      "properties": {
+                        "subject": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "semester": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 20
+                        }
+                      }
+                    }
+                  },
+                  "suggestionId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "version",
+                  "items"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/curricula/{id}/studio/preview": {
+      "post": {
+        "summary": "Biznes yozuvlarini o‘zgartirmasdan kredit va talaba soatlarini hisoblash",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Muvaffaqiyatli"
+          },
+          "403": {
+            "description": "Vakolat yetarli emas"
+          },
+          "409": {
+            "description": "Versiya, hujjat yoki yil holati mos emas"
+          },
+          "422": {
+            "description": "Me’yor yoki fan tekshiruvi xatosi"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "items": {
+                    "type": "array",
+                    "maxItems": 500,
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "subject",
+                        "semester"
+                      ],
+                      "properties": {
+                        "subject": {
+                          "type": "string",
+                          "format": "uuid"
+                        },
+                        "semester": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 20
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "items"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/curricula/{id}/ai-suggest": {
+      "post": {
+        "summary": "Mahalliy Ollama modelidan tekshiriladigan semestr tavsiyasi; avtomatik saqlash yoki tasdiq yo‘q",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Muvaffaqiyatli"
+          },
+          "403": {
+            "description": "Vakolat yetarli emas"
+          },
+          "409": {
+            "description": "Versiya, hujjat yoki yil holati mos emas"
+          },
+          "422": {
+            "description": "Me’yor yoki fan tekshiruvi xatosi"
+          },
+          "429": {
+            "description": "Model band yoki foydalanuvchi limiti"
+          },
+          "502": {
+            "description": "Mahalliy model javobi olinmadi yoki validatsiya xatosi"
+          },
+          "503": {
+            "description": "Mahalliy model sozlanmagan"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subjectIds": {
+                    "type": "array",
+                    "minItems": 1,
+                    "maxItems": 100,
+                    "uniqueItems": true,
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    }
+                  },
+                  "instruction": {
+                    "type": "string",
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "subjectIds"
+                ]
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

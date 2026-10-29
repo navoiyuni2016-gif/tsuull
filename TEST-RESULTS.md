@@ -48,3 +48,15 @@ Fresh checks for the VM-targeted installer:
 - Shell syntax and `git diff --check` passed.
 
 No connection was made to the real `devadmin@172.20.0.50` VM: the managed environment has no VPN configuration or TCP grant for that private endpoint. No remote files, DNS/NAT settings, Proxmox configuration or real certificates were changed. The Ubuntu Docker-install helper was syntax checked but not executed on the user's Ubuntu guest. Offline images are Linux amd64; Docker Engine/Compose prerequisites must already exist or be installed on that VM.
+
+
+## 2026-10-29 — native curriculum studio and optional local AI
+
+- `npm test` with isolated `TEST_DATABASE_URL`: **40 passed** (6 core, 5 academic, 8 server, 12 extended, 3 studio unit, 6 studio integration), exit 0.
+- `python tests/deployment_test.py`: **6 passed**, exit 0. Existing environment generation, TLS modes and secret preservation remain covered.
+- `python tests/ui_studio.py /workspace/setup/studio-ui.env`: passed. Browser created a plan without a workbook, selected subjects/semesters, checked exact hours, reviewed a synthetic local-model contract response, explicitly applied/saved, removed/re-added a row with retained history, and submitted for independent approval. Desktop/mobile and no page JS errors.
+- `python tests/ui_studio.py /workspace/setup/native-ui.env --without-ai`: passed. Same native workflow with AI disabled and deterministic recommendations; matches the university's current 2-vCPU/3-GB ERP VM configuration choice.
+- Docker image `tsuull-erp:plan-studio-check` built successfully with the managed proxy CA; no TLS bypass. Build evidence `/workspace/setup/studio-build.log` is local and not committed.
+- Initial tests detected save/UI races and a locked-year revision boundary; fixed, then the integrated tests above passed. AI invalid/disabled cases deliberately return 502/503 and are logged as expected errors in the integration run.
+- **Not verified:** actual Ollama image/model deployment, model quality/latency, dedicated university AI server network access, or live deployment to `el.tsuull.uz`. User has deferred AI server setup; model IP/specification is unavailable. The optional local-AI API was tested with a synthetic local HTTP contract server, not an actual model.
+- Archived plan rows use JSONB `_excluded` and retain snapshots/audit. Old application versions do not understand that marker; use the compatibility/rollback instructions in `docs/19-REJA-USTAXONASI-VA-AI.md`.

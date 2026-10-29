@@ -9,7 +9,7 @@ export function approvalSnapshot(record,all){
  if(record.module==='rules'&&d.calculation){validateParameters(d.calculation);result={engine:'academic-v1',calculation:d.calculation};}
  if(record.module==='curricula'){
   approvedRule();computeAcademicCourse({credits:'1',students:0,onDate:d.onDate},rule);
-  const items=all.filter(r=>r.module==='plan_items'&&r.data.curriculum===record.id);const subjects=new Map(all.filter(r=>r.module==='subjects').map(r=>[r.id,r]));
+  const items=all.filter(r=>r.module==='plan_items'&&!r.data._excluded&&r.data.curriculum===record.id);const subjects=new Map(all.filter(r=>r.module==='subjects').map(r=>[r.id,r]));
   for(const item of items)if(subjects.get(item.data.subject)?.status!=='APPROVED')throw new Error('Rejadagi barcha fanlar tasdiqlangan bo‘lsin.');
   result={...validateCurriculum(items.map(r=>r.data),subjects,rule.data.calculation),items:items.map(r=>({id:r.id,revision:r.revision,data:r.data})),rule:{id:rule.id,revision:rule.revision,data:rule.data}};
  }

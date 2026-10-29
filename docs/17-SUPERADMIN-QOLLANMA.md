@@ -57,3 +57,7 @@ Import markazida modul va XLSX faylni tanlang. Bog‘langan ma’lumotlar oldind
 XLSX/CSV eksport joriy qidiruv va holat filtriga mos. XLSXda holat, versiya, manba va tasdiqlangan hisob ko‘rsatkichlari ham bor. `PDF / Chop etish` barcha filtrlangan jadval qatorlarini brauzer print oynasiga beradi. Bu universitetning maxsus imzolangan blankasi aynan qayta yaratilganini anglatmaydi.
 
 Tasdiqlangan yozuv tahrirlanmaydi: `Yangi versiya` bilan yangi loyiha yarating. Akademik yilni yopish APPROVER hisobida amalga oshiriladi; yilga keyingi yozuvlar bloklanadi.
+
+## 9. Excel ishlatmasdan reja tuzish
+
+`O‘quv reja ustaxonasi`da yangi reja yarating, tasdiqlangan fanlarni jadvalga qo‘shing va semestrlarni belgilang. Soatlar me’yor bo‘yicha hisoblanadi. Qatorni olib tashlash tarixi saqlanadi; saqlash atomar va boshqa xodim tahriridan himoyalangan. `Hujjat va tasdiqlash` orqali alohida akademik tasdiqqa yuboring. AI shart emas. Batafsil: [Reja ustaxonasi va mahalliy AI](19-REJA-USTAXONASI-VA-AI.md).

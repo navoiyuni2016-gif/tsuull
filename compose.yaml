@@ -35,6 +35,10 @@ services:
       APP_ORIGIN: https://${ERP_DOMAIN:?Set ERP_DOMAIN}
       TRUST_PROXY: '1'
       MFA_ENCRYPTION_KEY: ${MFA_ENCRYPTION_KEY:?Set MFA_ENCRYPTION_KEY}
+      LOCAL_AI_URL: ${LOCAL_AI_URL:-}
+      LOCAL_AI_MODEL: ${LOCAL_AI_MODEL:-}
+      NO_PROXY: ${LOCAL_AI_NO_PROXY:-db,localhost,127.0.0.1}
+      no_proxy: ${LOCAL_AI_NO_PROXY:-db,localhost,127.0.0.1}
     depends_on:
       migrate:
         condition: service_completed_successfully
