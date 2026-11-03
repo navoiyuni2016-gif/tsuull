@@ -1536,8 +1536,8 @@ export const messages = {
     "ru": "Некорректные кредиты или контингент."
   },
   "Kunduzgi": {
-    "en": "Full-time study",
-    "ru": "Очная форма"
+    "en": "Light",
+    "ru": "Светлый"
   },
   "Kuzatuv": {
     "en": "Observation",
@@ -4019,5 +4019,105 @@ export const messages = {
     "uz": "Sun’iy intellekt reja tavsiyasi",
     "en": "AI curriculum recommendation",
     "ru": "Рекомендация учебного плана ИИ"
+  },
+  "Shaxsiy ko'rinish": {
+    "en": "Personal appearance",
+    "ru": "Личное оформление"
+  },
+  "Interfeys sozlamalari": {
+    "en": "Appearance settings",
+    "ru": "Настройки оформления"
+  },
+  "Interfeys": {
+    "en": "Appearance",
+    "ru": "Оформление"
+  },
+  "Rang tugmalar, menyu va ajratilgan elementlarga qo'llanadi. Tanlov shu brauzerda hisobingiz uchun alohida saqlanadi.": {
+    "en": "The color applies to buttons, menus and highlighted elements. Your preference is saved separately for your account in this browser.",
+    "ru": "Цвет применяется к кнопкам, меню и выделенным элементам. Выбор сохраняется отдельно для вашей учётной записи в этом браузере."
+  },
+  "Ko'rinish": {
+    "en": "Appearance mode",
+    "ru": "Режим оформления"
+  },
+  "Avtomatik — qurilma bo'yicha": {
+    "en": "Automatic — follow device",
+    "ru": "Автоматически — как на устройстве"
+  },
+  "Tungi": {
+    "en": "Dark",
+    "ru": "Тёмный"
+  },
+  "Asosiy rang": {
+    "en": "Accent color",
+    "ru": "Основной цвет"
+  },
+  "Rang kodi": {
+    "en": "Color code",
+    "ru": "Код цвета"
+  },
+  "Tayyor ranglar": {
+    "en": "Preset colors",
+    "ru": "Готовые цвета"
+  },
+  "Jonli namuna": {
+    "en": "Live preview",
+    "ru": "Предпросмотр"
+  },
+  "Namuna tugma": {
+    "en": "Sample button",
+    "ru": "Пример кнопки"
+  },
+  "Tanlangan rang": {
+    "en": "Selected color",
+    "ru": "Выбранный цвет"
+  },
+  "O'zgarishlar darhol ko'rinadi. Tanlovni saqlash uchun “Saqlash”ni bosing.": {
+    "en": "Changes appear immediately. Click “Save” to keep your preference.",
+    "ru": "Изменения видны сразу. Нажмите «Сохранить», чтобы сохранить выбор."
+  },
+  "Standartni tiklash": {
+    "en": "Restore defaults",
+    "ru": "Вернуть стандартные настройки"
+  },
+  "Rang kodini #2859dc shaklida kiriting.": {
+    "en": "Enter a color code such as #2859dc.",
+    "ru": "Введите код цвета, например #2859dc."
+  },
+  "Brauzer saqlashga ruxsat bermadi. Tanlov ushbu oynada amal qiladi, qayta yuklanganda saqlanmasligi mumkin.": {
+    "en": "Browser storage is unavailable. The preference applies in this window but may be lost after reloading.",
+    "ru": "Хранилище браузера недоступно. Выбор действует в этом окне, но может сброситься при перезагрузке."
+  },
+  "Ko'k": {
+    "en": "Blue",
+    "ru": "Синий"
+  },
+  "Binafsha": {
+    "en": "Purple",
+    "ru": "Фиолетовый"
+  },
+  "Yashil": {
+    "en": "Green",
+    "ru": "Зелёный"
+  },
+  "To'q sariq": {
+    "en": "Orange",
+    "ru": "Оранжевый"
+  },
+  "Pushti": {
+    "en": "Pink",
+    "ru": "Розовый"
+  },
+  "Qizil": {
+    "en": "Red",
+    "ru": "Красный"
+  },
+  "Moviy": {
+    "en": "Cyan",
+    "ru": "Голубой"
+  },
+  "Kulrang": {
+    "en": "Gray",
+    "ru": "Серый"
   }
 };

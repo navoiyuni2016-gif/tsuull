@@ -91,3 +91,30 @@ with tempfile.TemporaryDirectory() as tmp:
     (root/'public/i18n.mjs').write_text('// unrecognized local edit')
     before_drift=snapshot(root);run(*command,'--apply',ok=False);assert snapshot(root)==before_drift
     print('PASS: v1 -> v2 installed-bundle upgrade; unchanged CSS, local server/Excel patches, idempotence, rollback and drift rejection')
+
+# One appearance update supports both released language states, including delta bases.
+with tempfile.TemporaryDirectory() as tmp:
+    tmp=Path(tmp);archive=tmp/'appearance.zip';bundle=tmp/'bundle'
+    bases=[repo/'updates/tsuull-i18n-update.zip',repo/'updates/tsuull-i18n-labels-v2.zip']
+    run('python3',repo/'deploy/build-i18n-bundle.py',archive,'--base-bundle',bases[0],'--base-bundle',bases[1])
+    with zipfile.ZipFile(archive) as z:z.extractall(bundle)
+    manifest=json.loads((bundle/'manifest.json').read_text())
+    assert 'public/app.css' not in manifest['files']
+    for count in (1,2):
+        root=tmp/str(count);root.mkdir();(root/'package.json').write_text('{"name":"tsuull-oquv-erp"}')
+        for source in bases[:count]:
+            with zipfile.ZipFile(source) as z:
+                for name in json.loads(z.read('manifest.json'))['files']:
+                    p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(z.read('payload/'+name))
+        before=snapshot(root);command=['python3',bundle/'install.py','--root',root]
+        run(*command);assert snapshot(root)==before
+        run(*command,'--apply');installed=snapshot(root)
+        run(*command,'--apply');assert snapshot(root)==installed
+        backup=list(root.glob('i18n-upgrade-*'))[0]
+        # Every backup records the exact installed base, not a list of possibilities.
+        saved=json.loads((backup/'manifest.json').read_text())
+        assert all(not isinstance(i['base_sha256'],list) for i in saved['files'].values())
+        run(*command,'--rollback',backup,'--apply')
+        for name,data in before.items():assert (root/name).read_bytes()==data
+        for name in ['public/appearance.mjs','public/appearance.css']:assert not (root/name).exists()
+    print('PASS: appearance package upgrades and rolls back both v1 and v2; delta bases resolved; per-file backups exact')

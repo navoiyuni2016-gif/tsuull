@@ -10,7 +10,7 @@
     "start": "node server/index.mjs",
     "migrate": "node server/migrate.mjs",
     "user:create": "node server/create-user.mjs",
-    "test": "node packages/domain/tests/core.test.mjs && node tests/academic.test.mjs && node tests/server.test.mjs && node tests/extended.test.mjs && node tests/plan-studio.test.mjs && node tests/studio.integration.mjs && node tests/i18n.test.mjs"
+    "test": "node packages/domain/tests/core.test.mjs && node tests/academic.test.mjs && node tests/server.test.mjs && node tests/extended.test.mjs && node tests/plan-studio.test.mjs && node tests/studio.integration.mjs && node tests/i18n.test.mjs && node tests/appearance.test.mjs"
   },
   "dependencies": {
     "express": "5.1.0",

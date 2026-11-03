@@ -13,7 +13,7 @@ from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 
 ALLOWED = {'public/'+name for name in (
     'index.html','app.css','app.mjs','features.mjs','plan-studio.mjs',
-    'i18n.mjs','i18n-messages.mjs')}
+    'i18n.mjs','i18n-messages.mjs','appearance.mjs','appearance.css')}
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
@@ -65,9 +65,9 @@ def main():
                 already_current += 1
                 continue
             expected = info['base_sha256']
-            if expected is None and current is not None:
-                raise SystemExit('Yangi fayl allaqachon mavjud: '+name)
-            if expected is not None and (current is None or digest(without_asset_versions(current)) != expected):
+            candidates = expected if isinstance(expected,list) else [expected]
+            actual = digest(without_asset_versions(current)) if current is not None else None
+            if actual not in candidates:
                 raise SystemExit('Manba boshqacha; hech narsa almashtirilmadi: '+name)
         changes.append((name, target, data))
     if already_current and changes:
@@ -81,14 +81,16 @@ def main():
         return
     backup = root/('i18n-upgrade-'+datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'))
     backup.mkdir(mode=0o700)
-    (backup/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+    backup_manifest = json.loads(json.dumps(manifest))
     originals = {}
     for name, target, _ in changes:
         originals[name] = target.read_bytes() if target.exists() else None
+        backup_manifest['files'][name]['base_sha256'] = digest(without_asset_versions(originals[name])) if originals[name] is not None else None
         if target.exists():
             saved = backup/name
             saved.parent.mkdir(parents=True,exist_ok=True)
             shutil.copy2(target, saved)
+    (backup/'manifest.json').write_text(json.dumps(backup_manifest,ensure_ascii=False,indent=2))
     # Prepare every replacement before touching a project file. Recover on errors.
     staged = []
     try:

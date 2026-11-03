@@ -8,6 +8,8 @@ Serverda ishlaydigan, Superadmin tomonidan sozlanadigan akademik boshqaruv platf
 
 **Interfeys tillari va mavjud serverni ehtiyotkor yangilash:** [O‘zbekcha, ruscha, inglizcha va moslashtirilgan lotin yozuvi](docs/12-TILLAR.md).
 
+**Shaxsiy ranglar va kunduzgi/tungi ko‘rinish:** [Interfeys sozlamalari](docs/20-INTERFEYS-SOZLAMALARI.md).
+
 ## Ishlaydigan oqim
 
 Universitet profili → fakultet/kafedra/yil → fan/guruh/o‘qituvchi → qo‘lda kiritilgan hisoblash me’yori → akademik tasdiq → reja generatori → yuklama → dalilli fakt → o‘zgarmas hisobot snapshoti → XLSX/CSV yoki brauzer orqali PDF.
