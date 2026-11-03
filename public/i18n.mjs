@@ -27,8 +27,8 @@ export function createTranslator(id){
   const lang=valid(id)?id:'uz';
   return (source,values=[])=>{
     const original=String(source??''),key=normalize(original),entry=messages[key];
-    const localized=entry?.[lang];
-    let translated=lang==='uz-new'&&entry?modernLatin(original):localized===undefined?original:original.match(/^\s*/)[0]+localized+original.match(/\s*$/)[0];
+    const localized=lang==='uz-new'&&entry?modernLatin(entry.uz??original.trim()):entry?.[lang];
+    let translated=localized===undefined?original:original.match(/^\s*/)[0]+localized+original.match(/\s*$/)[0];
     return translated.replace(/\{(\d+)\}/g,(match,index)=>Object.hasOwn(values,index)?String(values[index]):match);
   };
 }

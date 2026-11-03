@@ -42,7 +42,8 @@ export const messages = {
   },
   ": 0–10000 basis point kerak.": {
     "en": ": enter 0–10000 basis points.",
-    "ru": ": введите от 0 до 10000 базисных пунктов."
+    "ru": ": введите от 0 до 10000 базисных пунктов.",
+    "uz": ": 0–10000 bazis punkt kerak."
   },
   ": 12 belgigacha aniq son kerak.": {
     "en": ": enter an exact number up to 12 characters.",
@@ -238,7 +239,8 @@ export const messages = {
   },
   "Andoza → moslashtirish → dry-run → solishtirish → tasdiqlangan commit.": {
     "en": "Template → mapping → dry run → reconciliation → approved commit.",
-    "ru": "Шаблон → сопоставление → пробная проверка → сверка → подтверждённый импорт."
+    "ru": "Шаблон → сопоставление → пробная проверка → сверка → подтверждённый импорт.",
+    "uz": "Andoza → moslashtirish → sinov tekshiruvi → solishtirish → tasdiqlangan import."
   },
   "Andoza, hash, varaq va katak manbasi.": {
     "en": "Template, hash, worksheet and cell source.",
@@ -246,7 +248,8 @@ export const messages = {
   },
   "Andoza, mapping, dry-run, atomar commit, SHA256 va kvitansiya": {
     "en": "Template, mapping, dry run, atomic commit, SHA256 and receipt",
-    "ru": "Шаблон, сопоставление, пробная проверка, атомарный импорт, SHA256 и квитанция"
+    "ru": "Шаблон, сопоставление, пробная проверка, атомарный импорт, SHA256 и квитанция",
+    "uz": "Andoza, ustunlarni moslashtirish, sinov tekshiruvi, yaxlit import, SHA256 va kvitansiya"
   },
   "Aniq hisob simulyatsiyasi": {
     "en": "Exact calculation simulation",
@@ -310,7 +313,8 @@ export const messages = {
   },
   "Auditoriya ulushi (basis point: 100%=10000)": {
     "en": "Contact share (basis points: 100%=10000)",
-    "ru": "Доля аудиторной работы (базисные пункты: 100%=10000)"
+    "ru": "Доля аудиторной работы (базисные пункты: 100%=10000)",
+    "uz": "Auditoriya ulushi (bazis punkt: 100% = 10000)"
   },
   "Auditoriya ulushi, %": {
     "en": "Contact share, %",
@@ -330,7 +334,8 @@ export const messages = {
   },
   "Avval dry-run tekshiruvidan o'ting.": {
     "en": "Run the dry-run validation first.",
-    "ru": "Сначала выполните пробную проверку."
+    "ru": "Сначала выполните пробную проверку.",
+    "uz": "Avval sinov tekshiruvidan o‘ting."
   },
   "Avval joriy MFAni yangi kod bilan o'chiring.": {
     "en": "Disable the current MFA with a new code first.",
@@ -618,7 +623,8 @@ export const messages = {
   },
   "Dry-run va tekshiruv": {
     "en": "Dry run and validation",
-    "ru": "Пробная проверка и валидация"
+    "ru": "Пробная проверка и валидация",
+    "uz": "Sinov tekshiruvi"
   },
   "E'tibor talab qiladigan ishlar": {
     "en": "Items requiring attention",
@@ -669,8 +675,9 @@ export const messages = {
     "ru": "Ф.И.О."
   },
   "FIXED_HOURS uchun birliklar soni 1 bo'lsin.": {
-    "en": "For FIXED_HOURS, set the unit count to 1.",
-    "ru": "Для FIXED_HOURS количество единиц должно быть 1."
+    "en": "For fixed hours, set the unit count to 1.",
+    "ru": "Для фиксированных часов количество единиц должно быть 1.",
+    "uz": "Belgilangan soat birligi uchun miqdor 1 bo‘lsin."
   },
   "Fakt bo'yicha qoldiq": {
     "en": "Remaining after verified actuals",
@@ -1810,7 +1817,8 @@ export const messages = {
   },
   "Mavjud capacity": {
     "en": "Available capacity",
-    "ru": "Доступная ёмкость"
+    "ru": "Доступная ёмкость",
+    "uz": "Mavjud sig‘im"
   },
   "Maydon": {
     "en": "Field",
@@ -1930,7 +1938,8 @@ export const messages = {
   },
   "Moslashtirish va dry-run": {
     "en": "Mapping and dry run",
-    "ru": "Сопоставление и пробная проверка"
+    "ru": "Сопоставление и пробная проверка",
+    "uz": "Moslashtirish va sinov tekshiruvi"
   },
   "Muallif o'z yozuvini tasdiqlay olmaydi.": {
     "en": "The author cannot approve their own record.",
@@ -2306,7 +2315,8 @@ export const messages = {
   },
   "Qolgan capacity": {
     "en": "Remaining capacity",
-    "ru": "Оставшаяся ёмкость"
+    "ru": "Оставшаяся ёмкость",
+    "uz": "Qolgan sig‘im"
   },
   "Quyidagi kalitni faqat o'zingizning Authenticator ilovangizga kiriting. Boshqalarga yubormang.": {
     "en": "Enter this key only in your own authenticator app. Do not share it.",
@@ -2878,7 +2888,8 @@ export const messages = {
   },
   "Tasdiqlash snapshoti va hisoblash izi": {
     "en": "Approval snapshot and calculation trace",
-    "ru": "Снимок утверждения и протокол расчёта"
+    "ru": "Снимок утверждения и протокол расчёта",
+    "uz": "Tasdiqlashdagi saqlangan nusxa va hisoblash izi"
   },
   "Tasdiqlovchi ID:": {
     "en": "Approver ID:",
@@ -3618,147 +3629,183 @@ export const messages = {
   },
   "PER_STUDENT": {
     "en": "Per student",
-    "ru": "На студента"
+    "ru": "На студента",
+    "uz": "Har bir talaba uchun"
   },
   "PER_GROUP": {
     "en": "Per group",
-    "ru": "На группу"
+    "ru": "На группу",
+    "uz": "Har bir guruh uchun"
   },
   "PER_EVENT": {
     "en": "Per event",
-    "ru": "На мероприятие"
+    "ru": "На мероприятие",
+    "uz": "Har bir tadbir uchun"
   },
   "FIXED_HOURS": {
     "en": "Fixed hours",
-    "ru": "Фиксированные часы"
+    "ru": "Фиксированные часы",
+    "uz": "Belgilangan soat"
   },
   "HALF_UP": {
     "en": "Round halves up",
-    "ru": "Половины вверх"
+    "ru": "Половины вверх",
+    "uz": "Yarimdan boshlab yuqoriga yaxlitlash"
   },
   "UP": {
     "en": "Round up",
-    "ru": "Округлять вверх"
+    "ru": "Округлять вверх",
+    "uz": "Yuqoriga yaxlitlash"
   },
   "DOWN": {
     "en": "Round down",
-    "ru": "Округлять вниз"
+    "ru": "Округлять вниз",
+    "uz": "Pastga yaxlitlash"
   },
   "OPEN": {
     "en": "Open",
-    "ru": "Открыт"
+    "ru": "Открыт",
+    "uz": "Ochiq"
   },
   "LOCKED": {
     "en": "Closed",
-    "ru": "Закрыт"
+    "ru": "Закрыт",
+    "uz": "Yopilgan"
   },
   "lecture": {
     "en": "Lecture",
-    "ru": "Лекция"
+    "ru": "Лекция",
+    "uz": "Ma’ruza"
   },
   "practice": {
     "en": "Practical class",
-    "ru": "Практическое занятие"
+    "ru": "Практическое занятие",
+    "uz": "Amaliy"
   },
   "seminar": {
     "en": "Seminar",
-    "ru": "Семинар"
+    "ru": "Семинар",
+    "uz": "Seminar"
   },
   "lab": {
     "en": "Laboratory",
-    "ru": "Лабораторная работа"
+    "ru": "Лабораторная работа",
+    "uz": "Laboratoriya"
   },
   "individual": {
     "en": "Individual",
-    "ru": "Индивидуальное занятие"
+    "ru": "Индивидуальное занятие",
+    "uz": "Individual mashg‘ulot"
   },
   "UPLOADED": {
     "en": "Uploaded",
-    "ru": "Загружено"
+    "ru": "Загружено",
+    "uz": "Yuklangan"
   },
   "PREVIEW": {
     "en": "Preview",
-    "ru": "Предпросмотр"
+    "ru": "Предпросмотр",
+    "uz": "Dastlabki tekshiruv"
   },
   "COMMITTED": {
     "en": "Imported",
-    "ru": "Импортировано"
+    "ru": "Импортировано",
+    "uz": "Import qilingan"
   },
   "CANCELLED": {
     "en": "Cancelled",
-    "ru": "Отменено"
+    "ru": "Отменено",
+    "uz": "Bekor qilingan"
   },
   "APPROVED": {
     "en": "Approved",
-    "ru": "Утверждено"
+    "ru": "Утверждено",
+    "uz": "Tasdiqlangan"
   },
   "DRAFT": {
     "en": "Draft",
-    "ru": "Проект"
+    "ru": "Проект",
+    "uz": "Loyiha"
   },
   "SUBMITTED": {
     "en": "Under review",
-    "ru": "На рассмотрении"
+    "ru": "На рассмотрении",
+    "uz": "Ko‘rib chiqishda"
   },
   "REJECTED": {
     "en": "Returned",
-    "ru": "Возвращено"
+    "ru": "Возвращено",
+    "uz": "Qaytarilgan"
   },
   "ADMIN": {
     "en": "Superadmin",
-    "ru": "Суперадмин"
+    "ru": "Суперадмин",
+    "uz": "Superadmin"
   },
   "OPERATOR": {
     "en": "Operator",
-    "ru": "Специалист"
+    "ru": "Специалист",
+    "uz": "Mutaxassis"
   },
   "APPROVER": {
     "en": "Academic approver",
-    "ru": "Академический согласующий"
+    "ru": "Академический согласующий",
+    "uz": "Akademik tasdiqlovchi"
   },
   "AUDITOR": {
     "en": "Auditor",
-    "ru": "Аудитор"
+    "ru": "Аудитор",
+    "uz": "Auditor"
   },
   "Ma'ruza ulushi (basis point)": {
     "en": "Lecture share (basis points)",
-    "ru": "Доля лекций (базисные пункты)"
+    "ru": "Доля лекций (базисные пункты)",
+    "uz": "Ma’ruza ulushi (bazis punkt)"
   },
   "Amaliy ulushi (basis point)": {
     "en": "Practical share (basis points)",
-    "ru": "Доля практических занятий (базисные пункты)"
+    "ru": "Доля практических занятий (базисные пункты)",
+    "uz": "Amaliy ulushi (bazis punkt)"
   },
   "Seminar ulushi (basis point)": {
     "en": "Seminar share (basis points)",
-    "ru": "Доля семинаров (базисные пункты)"
+    "ru": "Доля семинаров (базисные пункты)",
+    "uz": "Seminar ulushi (bazis punkt)"
   },
   "Laboratoriya ulushi (basis point)": {
     "en": "Laboratory share (basis points)",
-    "ru": "Доля лабораторных работ (базисные пункты)"
+    "ru": "Доля лабораторных работ (базисные пункты)",
+    "uz": "Laboratoriya ulushi (bazis punkt)"
   },
   "Individual ulushi (basis point)": {
     "en": "Individual share (basis points)",
-    "ru": "Доля индивидуальных занятий (базисные пункты)"
+    "ru": "Доля индивидуальных занятий (базисные пункты)",
+    "uz": "Individual ulushi (bazis punkt)"
   },
   "rows": {
     "en": "Rows",
-    "ru": "Строки"
+    "ru": "Строки",
+    "uz": "Qatorlar"
   },
   "credits": {
     "en": "Credits",
-    "ru": "Кредиты"
+    "ru": "Кредиты",
+    "uz": "Kredit"
   },
   "hours": {
     "en": "Hours",
-    "ru": "Часы"
+    "ru": "Часы",
+    "uz": "Soat"
   },
   "students": {
     "en": "Students",
-    "ru": "Студенты"
+    "ru": "Студенты",
+    "uz": "Talabalar"
   },
   "quantity": {
     "en": "Units",
-    "ru": "Единицы"
+    "ru": "Единицы",
+    "uz": "Birliklar soni"
   },
   "Fanlar kafedrasi mos emas.": {
     "en": "Subject departments do not match.",
@@ -3847,5 +3894,130 @@ export const messages = {
   "Tekshirish": {
     "en": "Validate",
     "ru": "Проверить"
+  },
+  "LOGIN": {
+    "uz": "Tizimga kirish",
+    "en": "Signed in",
+    "ru": "Вход в систему"
+  },
+  "LOGOUT": {
+    "uz": "Tizimdan chiqish",
+    "en": "Signed out",
+    "ru": "Выход из системы"
+  },
+  "CREATE": {
+    "uz": "Yozuv yaratish",
+    "en": "Record created",
+    "ru": "Создание записи"
+  },
+  "UPDATE": {
+    "uz": "Yozuvni yangilash",
+    "en": "Record updated",
+    "ru": "Обновление записи"
+  },
+  "SUBMIT": {
+    "uz": "Ko‘rib chiqishga yuborish",
+    "en": "Submitted for review",
+    "ru": "Отправка на рассмотрение"
+  },
+  "APPROVE": {
+    "uz": "Tasdiqlash",
+    "en": "Approved",
+    "ru": "Утверждение"
+  },
+  "REJECT": {
+    "uz": "Qaytarish",
+    "en": "Returned for revision",
+    "ru": "Возврат на доработку"
+  },
+  "USER_CREATED": {
+    "uz": "Foydalanuvchi yaratish",
+    "en": "User created",
+    "ru": "Создание пользователя"
+  },
+  "PASSWORD_CHANGED": {
+    "uz": "Parolni o‘zgartirish",
+    "en": "Password changed",
+    "ru": "Изменение пароля"
+  },
+  "SETTINGS_UPDATED": {
+    "uz": "Sozlamalarni yangilash",
+    "en": "Settings updated",
+    "ru": "Обновление настроек"
+  },
+  "PROFILE_UPDATED": {
+    "uz": "Profilni yangilash",
+    "en": "Profile updated",
+    "ru": "Обновление профиля"
+  },
+  "USER_ACCESS_UPDATED": {
+    "uz": "Vakolatlarni yangilash",
+    "en": "Permissions updated",
+    "ru": "Обновление прав"
+  },
+  "ADMIN_PASSWORD_RESET": {
+    "uz": "Administrator orqali parolni tiklash",
+    "en": "Password reset by administrator",
+    "ru": "Сброс пароля администратором"
+  },
+  "MFA_ENABLED": {
+    "uz": "Ikki bosqichli himoyani yoqish",
+    "en": "Two-factor protection enabled",
+    "ru": "Включение двухфакторной защиты"
+  },
+  "MFA_DISABLED": {
+    "uz": "Ikki bosqichli himoyani o‘chirish",
+    "en": "Two-factor protection disabled",
+    "ru": "Отключение двухфакторной защиты"
+  },
+  "REVISION_CREATED": {
+    "uz": "Yangi versiya yaratish",
+    "en": "Version created",
+    "ru": "Создание версии"
+  },
+  "FILE_UPLOADED": {
+    "uz": "Fayl biriktirish",
+    "en": "File attached",
+    "ru": "Прикрепление файла"
+  },
+  "IMPORT_ROW": {
+    "uz": "Qatorni import qilish",
+    "en": "Row imported",
+    "ru": "Импорт строки"
+  },
+  "IMPORT_COMMITTED": {
+    "uz": "Importni yakunlash",
+    "en": "Import completed",
+    "ru": "Завершение импорта"
+  },
+  "CURRICULUM_GENERATED": {
+    "uz": "O‘quv reja tavsiyasini saqlash",
+    "en": "Curriculum recommendation saved",
+    "ru": "Сохранение рекомендации учебного плана"
+  },
+  "YEAR_LOCKED": {
+    "uz": "O‘quv yilini yopish",
+    "en": "Academic year closed",
+    "ru": "Закрытие учебного года"
+  },
+  "PLAN_STUDIO_ROW": {
+    "uz": "Reja qatorini saqlash",
+    "en": "Curriculum row saved",
+    "ru": "Сохранение строки плана"
+  },
+  "PLAN_STUDIO_ROW_REMOVED": {
+    "uz": "Reja qatorini olib tashlash",
+    "en": "Curriculum row removed",
+    "ru": "Удаление строки плана"
+  },
+  "PLAN_STUDIO_SAVED": {
+    "uz": "O‘quv rejani saqlash",
+    "en": "Curriculum saved",
+    "ru": "Сохранение учебного плана"
+  },
+  "AI_PLAN_SUGGESTED": {
+    "uz": "Sun’iy intellekt reja tavsiyasi",
+    "en": "AI curriculum recommendation",
+    "ru": "Рекомендация учебного плана ИИ"
   }
 };

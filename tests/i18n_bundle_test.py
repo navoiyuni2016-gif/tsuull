@@ -60,3 +60,34 @@ with tempfile.TemporaryDirectory() as tmp:
         (root/'public/i18n.mjs').write_text('// user-owned helper')
         drift=snapshot(root);run(*command,'--apply',ok=False);assert snapshot(root)==drift
     print('PASS: plain and cache-versioned install; preflight, idempotence, rollback, source drift, corrupt payload and preservation of Excel/server/Caddy/DB files')
+
+# Upgrade a real previously released bundle, preserving local server patches.
+with tempfile.TemporaryDirectory() as tmp:
+    tmp=Path(tmp);root=tmp/'live';root.mkdir()
+    (root/'package.json').write_text('{"name":"tsuull-oquv-erp"}')
+    previous=repo/'updates/tsuull-i18n-update.zip'
+    with zipfile.ZipFile(previous) as z:
+        old=json.loads(z.read('manifest.json'))
+        for name in old['files']:
+            p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_bytes(z.read('payload/'+name))
+    for name in ('server/extensions.mjs','server/xlsx-theme.mjs','server/app.mjs','deploy/Caddyfile'):
+        p=root/name;p.parent.mkdir(parents=True,exist_ok=True);p.write_text('SYNTHETIC LIVE PATCH '+name)
+    before=snapshot(root);archive=tmp/'labels.zip'
+    run('python3',repo/'deploy/build-i18n-bundle.py',archive,'--base-bundle',previous)
+    bundle=tmp/'labels'
+    with zipfile.ZipFile(archive) as z:z.extractall(bundle)
+    manifest=json.loads((bundle/'manifest.json').read_text())
+    assert manifest['base_commit']==old['version']
+    assert 'public/app.css' not in manifest['files'],'Unchanged files must be omitted'
+    command=['python3',bundle/'install.py','--root',root]
+    run(*command);assert snapshot(root)==before
+    run(*command,'--apply')
+    for name,data in before.items():
+        if name not in manifest['files']:assert (root/name).read_bytes()==data
+    installed=snapshot(root);run(*command,'--apply');assert snapshot(root)==installed
+    backup=list(root.glob('i18n-upgrade-*'))[0]
+    run(*command,'--rollback',backup,'--apply')
+    for name,data in before.items():assert (root/name).read_bytes()==data
+    (root/'public/i18n.mjs').write_text('// unrecognized local edit')
+    before_drift=snapshot(root);run(*command,'--apply',ok=False);assert snapshot(root)==before_drift
+    print('PASS: v1 -> v2 installed-bundle upgrade; unchanged CSS, local server/Excel patches, idempotence, rollback and drift rejection')

@@ -31,6 +31,21 @@ with sync_playwright() as p:
                 assert [o['value'] for o in options]==['','Majburiy','Tanlov']
                 if lang=='en':assert options[1]['text']=='Required'
                 if lang=='ru':assert options[1]['text']=='Обязательная'
+            if module=='work_types':
+                entries=page.locator('#field-unit option').evaluate_all('(ns)=>ns.slice(1).map(n=>({value:n.value,text:n.textContent}))')
+                assert [n['value'] for n in entries]==['PER_STUDENT','PER_GROUP','PER_EVENT','FIXED_HOURS']
+                labels={
+                    'uz':['Har bir talaba uchun','Har bir guruh uchun','Har bir tadbir uchun','Belgilangan soat'],
+                    'en':['Per student','Per group','Per event','Fixed hours'],
+                    'ru':['На студента','На группу','На мероприятие','Фиксированные часы'],
+                    'uz-new':['Har bir talaba uçun','Har bir guruh uçun','Har bir tadbir uçun','Belgilangan soat']
+                }
+                assert [n['text'] for n in entries]==labels[lang],entries
+            if module=='rules':
+                for selector,codes in [('#parameter__individualUnit',['PER_STUDENT','PER_GROUP']),('#parameter__roundingMode',['HALF_UP','UP','DOWN']),('#parameter__remainderActivity',['lecture','practice','seminar','lab','individual'])]:
+                    entries=page.locator(selector+' option').evaluate_all('(ns)=>ns.slice(1).map(n=>({value:n.value,text:n.textContent}))')
+                    assert [n['value'] for n in entries]==codes
+                    assert all(n['text']!=n['value'] for n in entries),(lang,selector,entries)
             if module=='workloads':
                 assert page.locator('#field-activity option').evaluate_all('(ns)=>ns.slice(1).map(n=>n.value)')==['Ma’ruza','Amaliy','Seminar','Laboratoriya']
             page.locator('#editor-dialog [data-close="editor-dialog"]').first.click()

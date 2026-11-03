@@ -42,7 +42,7 @@ def main():
     manifest_path = args.rollback/'manifest.json' if args.rollback else args.bundle/'manifest.json'
     manifest = json.loads(manifest_path.read_text())
     files = manifest['files']
-    if set(files) != ALLOWED:
+    if not files or not set(files).issubset(ALLOWED):
         raise SystemExit('Paket fayllari ro‘yxati kutilgan shaklda emas.')
     changes = []
     already_current = 0

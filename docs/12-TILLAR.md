@@ -63,3 +63,23 @@ sudo python3 /home/devadmin/tsuull-i18n-update/install.py --root "$PWD" --rollba
 ```
 
 Yangilanishdan keyin o‘zgargan fayl aniqlansa, rollback to‘xtaydi. Baza rollback qilinmaydi: til paketi biznes ma’lumotlarini o‘zgartirmaydi.
+
+## Texnik kodlar nomlari — v2 tuzatish
+
+`PER_STUDENT`, `PER_GROUP`, `PER_EVENT`, `FIXED_HOURS`, yaxlitlash usullari,
+me’yor birliklari, import holatlari va audit amallari to‘rtta tilda tushunarli
+nom bilan ko‘rsatiladi. Bazaga yoziladigan qiymatlar va import shartnomasi o‘zgarmaydi.
+
+`tsuull-i18n-labels-v2.zip` avvalgi `16fb6fa249a8` til paketining ustiga
+qo‘llanadi. Yangilanish faqat o‘zgargan frontend fayllarini oladi. Oldingi
+paketni qayta yuklab o‘rnatish o‘rniga aynan v2 arxivini alohida papkaga oching:
+
+```bash
+python3 -m zipfile -e /home/devadmin/tsuull-i18n-labels-v2.zip /home/devadmin/tsuull-i18n-labels-v2
+sudo bash /home/devadmin/tsuull-i18n-labels-v2/update-app.sh /home/devadmin/tsuull-main
+```
+
+Ishlayotgan ilovaning eski tasviri va manba kodi zaxiralanadi. Boshqa mahalliy
+o‘zgarish aniqlansa, o‘rnatish almashtirishdan oldin to‘xtaydi. v2 rollback uchun
+shu yangi paket papkasidagi `previous-image.txt` va installer chiqargan yangi
+zaxira papkasidan foydalaning.

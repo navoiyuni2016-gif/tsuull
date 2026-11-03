@@ -51,3 +51,13 @@ for(const spec of Object.values(modules)){
 }
 for(const field of academicFields)assert.ok(messages[key(field.label)]?.en&&messages[key(field.label)]?.ru,'Rule parameter label: '+field.label);
 console.log('i18n: all 19 schemas and academic parameter labels covered in Russian and English');
+
+// Canonical codes need human labels in Uzbek as well as Russian and English.
+for(const [code,uz] of Object.entries({PER_STUDENT:'Har bir talaba uchun',PER_GROUP:'Har bir guruh uchun',PER_EVENT:'Har bir tadbir uchun',FIXED_HOURS:'Belgilangan soat',HALF_UP:'Yarimdan boshlab yuqoriga yaxlitlash',OPEN:'Ochiq',LOCKED:'Yopilgan',lecture:'Ma’ruza'})){
+  assert.equal(createTranslator('uz')(code),uz,code+' Uzbek label');
+  assert.equal(createTranslator('uz-new')(code),modernLatin(uz),code+' custom Latin label');
+  assert.notEqual(createTranslator('en')(code),code,code+' English label');
+  assert.notEqual(createTranslator('ru')(code),code,code+' Russian label');
+}
+assert.equal(createTranslator('uz')(' PER_STUDENT '),' Har bir talaba uchun ');
+assert.equal(createTranslator('uz-new')('UNKNOWN_ENUM'),'UNKNOWN_ENUM');
