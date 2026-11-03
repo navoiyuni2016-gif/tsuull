@@ -6,6 +6,8 @@ Serverda ishlaydigan, Superadmin tomonidan sozlanadigan akademik boshqaruv platf
 
 **Excel ishlatmasdan reja tuzish va alohida mahalliy AI serverini ulash:** [O‘quv reja ustaxonasi](docs/19-REJA-USTAXONASI-VA-AI.md).
 
+**Interfeys tillari va mavjud serverni ehtiyotkor yangilash:** [O‘zbekcha, ruscha, inglizcha va moslashtirilgan lotin yozuvi](docs/12-TILLAR.md).
+
 ## Ishlaydigan oqim
 
 Universitet profili → fakultet/kafedra/yil → fan/guruh/o‘qituvchi → qo‘lda kiritilgan hisoblash me’yori → akademik tasdiq → reja generatori → yuklama → dalilli fakt → o‘zgarmas hisobot snapshoti → XLSX/CSV yoki brauzer orqali PDF.

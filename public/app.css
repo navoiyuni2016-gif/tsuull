@@ -7,3 +7,11 @@
 /* Native curriculum editing */
 .studio-intro h2{margin-top:0}.studio-add{display:grid;grid-template-columns:minmax(0,1fr) 110px auto;gap:16px;align-items:end}.studio-table input{min-width:72px;max-width:100px}.studio-table td:nth-child(2){white-space:normal;min-width:180px}#studio-instruction{width:100%;box-sizing:border-box}#studio-calculation details{margin-top:20px}#studio-workspace .stat-value{font-size:24px}
 @media(max-width:680px){.studio-add{grid-template-columns:minmax(0,1fr)}.studio-add .button{width:100%}.studio-table{min-width:520px}}
+
+/* Locale controls stay visible on login, desktop and mobile. */
+.language-picker{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted,#64748b);white-space:nowrap}
+.language-picker select{width:auto;max-width:190px;margin:0;padding:7px 26px 7px 9px;font-size:13px;min-height:34px}
+.login-form>.language-picker{display:flex;justify-content:flex-end;margin:0 0 22px}
+.header-right>.language-picker{margin:0 12px 0 0}
+@media(max-width:1100px){.header-right>.language-picker{font-size:0;margin-right:4px}.header-right>.language-picker select{max-width:145px;font-size:12px}.search-button>span:not(:first-child),.search-button kbd{display:none}}
+@media(max-width:600px){.header-right>.language-picker select{max-width:125px;padding-right:20px}.breadcrumb{display:none}.topbar{padding-left:14px;padding-right:14px}.account-name{display:none}.header-divider{display:none}.language-picker{white-space:normal}.button-group{flex-wrap:wrap}}
