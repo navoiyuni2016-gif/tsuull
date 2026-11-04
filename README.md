@@ -10,6 +10,8 @@ Serverda ishlaydigan, Superadmin tomonidan sozlanadigan akademik boshqaruv platf
 
 **Shaxsiy ranglar va kunduzgi/tungi ko‘rinish:** [Interfeys sozlamalari](docs/20-INTERFEYS-SOZLAMALARI.md).
 
+**Reja versiyalari va juftlik soatlarini nazorat qilish:** [Rejalarni taqqoslash, jadvalni yuklamaga bog‘lash va v7 yangilanishi](docs/24-REJA-VA-JADVAL-NAZORATI.md).
+
 ## Ishlaydigan oqim
 
 Universitet profili → fakultet/kafedra/yil → fan/guruh/o‘qituvchi → qo‘lda kiritilgan hisoblash me’yori → akademik tasdiq → reja generatori → yuklama → dalilli fakt → o‘zgarmas hisobot snapshoti → XLSX/CSV yoki brauzer orqali PDF.

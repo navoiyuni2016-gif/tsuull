@@ -4724,5 +4724,453 @@ export const messages = {
   "{0} yozuv · {1} ustun": {
     "en": "{0} records · {1} columns",
     "ru": "Записей: {0} · Столбцов: {1}"
+  },
+  "2026–2027 juftliklarini qo'yish": {
+    "en": "Insert 2026–2027 class periods",
+    "ru": "Вставить пары 2026–2027 года"
+  },
+  "Akademik soat": {
+    "en": "Academic hours",
+    "ru": "Академические часы"
+  },
+  "Akademik soat faqat yuklama va juftlik qoidasiga bog'lab hisoblanadi.": {
+    "en": "Academic hours are calculated only with a linked workload and class period policy.",
+    "ru": "Академические часы рассчитываются только при связи с нагрузкой и правилом учебных пар."
+  },
+  "Alohida tasdiqlangan juftlik qoidasini tanlang.": {
+    "en": "Select an independently approved class period policy.",
+    "ru": "Выберите правило учебных пар, утверждённое другим сотрудником."
+  },
+  "Amaliy / talaba": {
+    "en": "Practice / student",
+    "ru": "Практические / студент"
+  },
+  "Avtomatik hisob uchun tasdiqlangan to'liq juftlik vaqtini tanlang.": {
+    "en": "Select complete approved class periods for automatic calculation.",
+    "ru": "Для автоматического расчёта выберите полные утверждённые учебные пары."
+  },
+  "Avval juftlik qoidasini tanlang.": {
+    "en": "Select an approved class period policy first.",
+    "ru": "Сначала выберите утверждённое правило учебных пар."
+  },
+  "Bir manbali fan versiyalari takrorlangan; ular avtomatik birlashtirilmadi.": {
+    "en": "Multiple course versions share one source; ambiguous matches were not merged automatically.",
+    "ru": "Обнаружены версии дисциплин с одним источником; неоднозначные совпадения не объединялись автоматически."
+  },
+  "Bir mashg'ulotning parallel tasdiqlangan versiyalari bor; soatlari jamlanmadi.": {
+    "en": "A lesson has parallel approved revisions; its hours were excluded.",
+    "ru": "У занятия есть параллельные утверждённые версии; его часы исключены из итога."
+  },
+  "Bog'langan mashg'ulotlar hali yo'q.": {
+    "en": "No linked lessons yet.",
+    "ru": "Связанных занятий пока нет."
+  },
+  "Bog'langan yuklama tasdiqlanmagan.": {
+    "en": "The linked workload is not approved.",
+    "ru": "Связанная нагрузка не утверждена."
+  },
+  "Butun o'quv yilidagi yuklama solishtiriladi. Jadval soati fakt ijro hisoblanmaydi.": {
+    "en": "Workload is compared across the full academic year. Scheduled hours are not verified actual hours.",
+    "ru": "Сверяется нагрузка за весь учебный год. Часы расписания не являются подтверждёнными фактическими часами."
+  },
+  "Eski fan": {
+    "en": "Old course",
+    "ru": "Старая дисциплина"
+  },
+  "Eski kredit": {
+    "en": "Old credits",
+    "ru": "Старые кредиты"
+  },
+  "Eski reja": {
+    "en": "Old plan",
+    "ru": "Старый план"
+  },
+  "Eski semestr": {
+    "en": "Old semester",
+    "ru": "Старый семестр"
+  },
+  "Eski talaba soati": {
+    "en": "Old student hours",
+    "ru": "Старые часы студента"
+  },
+  "Eski tasdiqlangan reja saqlanadi. Yangi nusxa loyiha sifatida ochiladi.": {
+    "en": "The approved original is retained. The new copy opens as a draft.",
+    "ru": "Утверждённый оригинал сохраняется. Новая копия открывается как проект."
+  },
+  "Eski va yangi rejaning fanlari, kreditlari, semestrlari va talaba soatlarini solishtiring.": {
+    "en": "Compare courses, credits, semesters and student hours in the old and new plans.",
+    "ru": "Сравните дисциплины, кредиты, семестры и часы студента в старом и новом планах."
+  },
+  "Fan bo'yicha batafsil farqlar": {
+    "en": "Detailed course differences",
+    "ru": "Подробные различия по дисциплине"
+  },
+  "Fan kreditining saqlangan qiymati noto'g'ri.": {
+    "en": "The stored course credit value is invalid.",
+    "ru": "Сохранённое значение кредитов дисциплины некорректно."
+  },
+  "Fanlar bo'yicha farqlar": {
+    "en": "Course differences",
+    "ru": "Различия по дисциплинам"
+  },
+  "Faqat bog'langan va tasdiqlangan mashg'ulotlar jamlanadi. Tasdiq kutayotgan soatlar va fakt alohida ko'rsatiladi.": {
+    "en": "Only linked, approved lessons are summed. Pending hours and verified actuals are shown separately.",
+    "ru": "Суммируются только связанные утверждённые занятия. Часы на согласовании и подтверждённый факт показаны отдельно."
+  },
+  "Faqat to'liq juftliklar hisoblanadi. Tanaffuslar akademik soatga qo'shilmaydi.": {
+    "en": "Only complete class periods are counted. Breaks do not add academic hours.",
+    "ru": "Учитываются только полные пары. Перерывы не добавляются к академическим часам."
+  },
+  "Farq": {
+    "en": "Difference",
+    "ru": "Различие"
+  },
+  "Filtr manbasi topilmadi yoki vakolat doirasidan tashqarida.": {
+    "en": "A filter source was not found or is outside your access scope.",
+    "ru": "Источник фильтра не найден или находится за пределами ваших полномочий."
+  },
+  "Har qatorda boshlanish - tugash = akademik soat yozing. Qoida alohida tasdiqlanadi.": {
+    "en": "Enter start - end = academic hours on each line. The policy requires separate approval.",
+    "ru": "В каждой строке укажите начало - конец = академические часы. Правило требует отдельного утверждения."
+  },
+  "Hisoblangan akademik soat": {
+    "en": "Calculated academic hours",
+    "ru": "Рассчитанные академические часы"
+  },
+  "Individual / talaba": {
+    "en": "Individual / student",
+    "ru": "Индивидуальные / студент"
+  },
+  "Jadval juftliklari qoidasi": {
+    "en": "Scheduled class period policy",
+    "ru": "Правило учебных пар"
+  },
+  "Jadval manbasi topilmadi yoki vakolat doirasidan tashqarida.": {
+    "en": "A schedule source was not found or is outside your access scope.",
+    "ru": "Источник расписания не найден или находится за пределами ваших полномочий."
+  },
+  "Jadval sanasi yuklamaning o'quv yilida bo'lsin.": {
+    "en": "The lesson date must fall within the workload’s academic year.",
+    "ru": "Дата занятия должна входить в учебный год нагрузки."
+  },
+  "Jadval soati fakt ijro emas. Faqat bog'langan va tasdiqlangan mashg'ulotlar jamlanadi.": {
+    "en": "Scheduled hours are not verified actual hours. Only linked, approved lessons are summed.",
+    "ru": "Часы расписания не являются подтверждённым фактом. Суммируются только связанные утверждённые занятия."
+  },
+  "Jadval va yuklama nazorati": {
+    "en": "Schedule and workload reconciliation",
+    "ru": "Сверка расписания и нагрузки"
+  },
+  "Jadvaldagi guruh va o'qituvchi tanlangan yuklamaga mos emas.": {
+    "en": "The scheduled group and teacher do not match the selected workload.",
+    "ru": "Группа и преподаватель в расписании не соответствуют выбранной нагрузке."
+  },
+  "Jadvaldagi tasdiqlangan soat": {
+    "en": "Approved scheduled hours",
+    "ru": "Утверждённые часы расписания"
+  },
+  "Jadvalning saqlangan hisoblash manbasi mos emas.": {
+    "en": "The saved schedule calculation does not match its sources.",
+    "ru": "Сохранённый расчёт расписания не соответствует источникам."
+  },
+  "Joriy loyiha tarkibi": {
+    "en": "Current draft contents",
+    "ru": "Текущий состав проекта"
+  },
+  "Juftlik bo'yicha avtomatik hisob": {
+    "en": "Automatic calculation by class period",
+    "ru": "Автоматический расчёт по учебным парам"
+  },
+  "Juftlik boshlanishi va tugashini tekshiring.": {
+    "en": "Check the class period start and end times.",
+    "ru": "Проверьте время начала и конца учебной пары."
+  },
+  "Juftlik qatori namunasi: 08:00 - 09:20 = 2": {
+    "en": "Example period: 08:00 - 09:20 = 2",
+    "ru": "Пример строки: 08:00 - 09:20 = 2"
+  },
+  "Juftlik qoidasi uchun o'quv yili va uning ichidagi amal davrini tanlang.": {
+    "en": "Select an academic year and an effective period within it for the policy.",
+    "ru": "Выберите для правила учебный год и период действия в его пределах."
+  },
+  "Juftlik qoidasi uchun o'quv yilini tanlang.": {
+    "en": "Select an academic year for the class period policy.",
+    "ru": "Выберите учебный год для правила учебных пар."
+  },
+  "Juftlik qoidasi versiyasi": {
+    "en": "Class period policy version",
+    "ru": "Версия правила учебных пар"
+  },
+  "Juftlik qoidasining o'quv yili yoki kafedra doirasi mos emas.": {
+    "en": "The class period policy’s year or department scope does not match.",
+    "ru": "Учебный год или кафедра правила учебных пар не соответствуют нагрузке."
+  },
+  "Juftlik vaqti": {
+    "en": "Class period time",
+    "ru": "Время учебной пары"
+  },
+  "Juftlik vaqtlari ustma-ust tushmasin.": {
+    "en": "Class periods must not overlap.",
+    "ru": "Время учебных пар не должно пересекаться."
+  },
+  "Juftliklar qoidasi shakli noto'g'ri.": {
+    "en": "Invalid class period policy format.",
+    "ru": "Неверный формат правила учебных пар."
+  },
+  "Juftlikning akademik soati chegaradan tashqarida.": {
+    "en": "Class period academic hours exceed the allowed bounds.",
+    "ru": "Академические часы пары вне допустимых границ."
+  },
+  "Juftlikning akademik soatini aniq son bilan kiriting.": {
+    "en": "Enter the class period’s academic hours as an exact decimal.",
+    "ru": "Введите академические часы пары точным десятичным числом."
+  },
+  "Kunlik juftlik soatlari chegaradan tashqarida.": {
+    "en": "Daily class period hours exceed the allowed bounds.",
+    "ru": "Суммарные часы учебных пар за день вне допустимых границ."
+  },
+  "Laboratoriya / talaba": {
+    "en": "Laboratory / student",
+    "ru": "Лабораторные / студент"
+  },
+  "Loyihani ustaxonada ochish": {
+    "en": "Edit draft in the studio",
+    "ru": "Открыть проект в мастерской"
+  },
+  "Ma'ruza / talaba": {
+    "en": "Lecture / student",
+    "ru": "Лекции / студент"
+  },
+  "Mashg'ulot sanasi juftlik qoidasining amal qilish davrida bo'lsin.": {
+    "en": "The lesson date must fall within the policy’s effective period.",
+    "ru": "Дата занятия должна входить в период действия правила учебных пар."
+  },
+  "Mashg'ulot vaqtini tekshiring.": {
+    "en": "Check the lesson time.",
+    "ru": "Проверьте время занятия."
+  },
+  "Mashg'ulot yuklama va juftlik qoidasiga bog'lanmagan.": {
+    "en": "The lesson is not linked to a workload and class period policy.",
+    "ru": "Занятие не связано с нагрузкой и правилом учебных пар."
+  },
+  "Mashg'ulotlar": {
+    "en": "Lessons",
+    "ru": "Занятия"
+  },
+  "O'quv reja topilmadi.": {
+    "en": "Curriculum not found.",
+    "ru": "Учебный план не найден."
+  },
+  "O'quv yili, amal qilish davri va huquqiy asosni ham kiriting.": {
+    "en": "Also enter the academic year, effective period and regulatory basis.",
+    "ru": "Также укажите учебный год, период действия и нормативное основание."
+  },
+  "O'zgargan": {
+    "en": "Changed",
+    "ru": "Изменено"
+  },
+  "O'zgarish sababi": {
+    "en": "Reason for change",
+    "ru": "Причина изменения"
+  },
+  "O'zgarish sababi (ixtiyoriy)": {
+    "en": "Reason for change (optional)",
+    "ru": "Причина изменения (необязательно)"
+  },
+  "O'zgarish sababi 1000 belgidan oshmasin.": {
+    "en": "The reason for change must not exceed 1,000 characters.",
+    "ru": "Причина изменения не должна превышать 1000 символов."
+  },
+  "O'zgarishlar tarixi": {
+    "en": "Change history",
+    "ru": "История изменений"
+  },
+  "O'zgarishsiz": {
+    "en": "Unchanged",
+    "ru": "Без изменений"
+  },
+  "Olib tashlangan": {
+    "en": "Removed",
+    "ru": "Удалено"
+  },
+  "Ortiqcha": {
+    "en": "Excess",
+    "ru": "Избыток"
+  },
+  "Oxirgi o'zgartirgan xodim": {
+    "en": "Last changed by",
+    "ru": "Последнее изменение внёс"
+  },
+  "Qo'shilgan": {
+    "en": "Added",
+    "ru": "Добавлено"
+  },
+  "Quyidagi mashg'ulotlarning soati jami hisobga kiritilmadi. Tasdiqlangan yozuvni tuzatish uchun yangi versiya yarating.": {
+    "en": "The following lessons are excluded from the totals. Create a new version to correct an approved record.",
+    "ru": "Следующие занятия не включены в итог. Для исправления утверждённой записи создайте новую версию."
+  },
+  "Reja bilan taqqoslash": {
+    "en": "Compare with another plan",
+    "ru": "Сравнить с другим планом"
+  },
+  "Reja fanining manbasi topilmadi.": {
+    "en": "A course source for this plan was not found.",
+    "ru": "Источник дисциплины учебного плана не найден."
+  },
+  "Reja fanlari hali kiritilmagan.": {
+    "en": "No courses have been added to the plan yet.",
+    "ru": "Дисциплины в план пока не добавлены."
+  },
+  "Reja manbalari vakolat doirangizdan tashqarida.": {
+    "en": "The plan sources are outside your access scope.",
+    "ru": "Источники плана находятся за пределами ваших полномочий."
+  },
+  "Reja versiyalarini taqqoslash": {
+    "en": "Compare curriculum versions",
+    "ru": "Сравнение версий учебных планов"
+  },
+  "Sabab ko'rsatilmagan.": {
+    "en": "No reason provided.",
+    "ru": "Причина не указана."
+  },
+  "Seminar / talaba": {
+    "en": "Seminar / student",
+    "ru": "Семинары / студент"
+  },
+  "Soatlar": {
+    "en": "Hours",
+    "ru": "Часы"
+  },
+  "Soatlar bir talaba uchun ko'rsatilgan. Bu o'qituvchiga taqsimlangan yuklama emas.": {
+    "en": "Hours are shown per student. These are not teacher workload allocations.",
+    "ru": "Часы показаны на одного студента. Это не распределённая нагрузка преподавателя."
+  },
+  "Soatlar bo'yicha farqlar": {
+    "en": "Hour differences",
+    "ru": "Различия в часах"
+  },
+  "Solishtirish": {
+    "en": "Reconcile",
+    "ru": "Сверить"
+  },
+  "Solishtirish akademik tasdiq o'rnini bosmaydi.": {
+    "en": "This comparison does not constitute academic approval.",
+    "ru": "Сравнение не заменяет академического утверждения."
+  },
+  "TAHLILIY SOLISHTIRISH": {
+    "en": "ANALYTICAL COMPARISON",
+    "ru": "АНАЛИТИЧЕСКОЕ СРАВНЕНИЕ"
+  },
+  "Tafsilotlar": {
+    "en": "Details",
+    "ru": "Подробности"
+  },
+  "Tanlangan doirada tasdiqlangan yuklama topilmadi.": {
+    "en": "No approved workloads found for these filters.",
+    "ru": "По выбранным фильтрам утверждённая нагрузка не найдена."
+  },
+  "Tanlangan rejalar turli kafedra yoki o'quv yiliga tegishli.": {
+    "en": "The selected plans belong to different departments or academic years.",
+    "ru": "Выбранные планы относятся к разным кафедрам или учебным годам."
+  },
+  "Taqqoslash": {
+    "en": "Compare",
+    "ru": "Сравнить"
+  },
+  "Taqqoslash uchun ikkita turli rejani tanlang.": {
+    "en": "Select two different plans to compare.",
+    "ru": "Выберите два разных плана для сравнения."
+  },
+  "Tasdiq kutayotgan soat": {
+    "en": "Hours awaiting approval",
+    "ru": "Часы, ожидающие утверждения"
+  },
+  "Tasdiqlangan juftlik qoidasi": {
+    "en": "Approved class period policy",
+    "ru": "Утверждённое правило учебных пар"
+  },
+  "Tasdiqlangan me'yor yoki hisob sanasi yetishmagani uchun soatlar ko'rsatilmagan.": {
+    "en": "Hours are unavailable because an approved rule or calculation date is missing.",
+    "ru": "Часы не показаны: отсутствует утверждённый норматив или дата расчёта."
+  },
+  "Tasdiqlangan reja fanining o'zgarmas manbasi topilmadi.": {
+    "en": "The approved plan’s immutable course source was not found.",
+    "ru": "Не найден неизменяемый источник дисциплины утверждённого плана."
+  },
+  "Tasdiqlangan reja me'yorining manbasi topilmadi.": {
+    "en": "The approved plan’s rule source was not found.",
+    "ru": "Источник норматива утверждённого плана не найден."
+  },
+  "Tasdiqlangan reja o'zining saqlangan tarkibidan olinadi. Loyihaning joriy holati ko'rsatiladi.": {
+    "en": "Approved plans use their frozen contents. Drafts show their current state.",
+    "ru": "Для утверждённого плана используется зафиксированный состав. Для проекта показано текущее состояние."
+  },
+  "Tasdiqlangan rejaning saqlangan tarkibi topilmadi.": {
+    "en": "The approved plan’s frozen contents were not found.",
+    "ru": "Зафиксированный состав утверждённого плана не найден."
+  },
+  "Tasdiqlangan tarkib nusxasi": {
+    "en": "Frozen approved contents",
+    "ru": "Зафиксированный утверждённый состав"
+  },
+  "Tasdiqlangan yuklamani jadvalga kiritilgan akademik soatlar bilan solishtiring.": {
+    "en": "Compare approved workloads with academic hours entered in the schedule.",
+    "ru": "Сравните утверждённую нагрузку с академическими часами в расписании."
+  },
+  "Tasdiqlangan yuklamani tanlang.": {
+    "en": "Select an approved workload.",
+    "ru": "Выберите утверждённую нагрузку."
+  },
+  "Tekshirish talab qiladigan mashg'ulotlar": {
+    "en": "Lessons requiring review",
+    "ru": "Занятия, требующие проверки"
+  },
+  "Yangi fan": {
+    "en": "New course",
+    "ru": "Новая дисциплина"
+  },
+  "Yangi kredit": {
+    "en": "New credits",
+    "ru": "Новые кредиты"
+  },
+  "Yangi reja": {
+    "en": "New plan",
+    "ru": "Новый план"
+  },
+  "Yangi reja versiyasi": {
+    "en": "New curriculum version",
+    "ru": "Новая версия учебного плана"
+  },
+  "Yangi semestr": {
+    "en": "New semester",
+    "ru": "Новый семестр"
+  },
+  "Yangi talaba soati": {
+    "en": "New student hours",
+    "ru": "Новые часы студента"
+  },
+  "Yangi versiya yaratish": {
+    "en": "Create new version",
+    "ru": "Создать новую версию"
+  },
+  "Yuklama va juftlik qoidasini tanlang.": {
+    "en": "Select a workload and class period policy.",
+    "ru": "Выберите нагрузку и правило учебных пар."
+  },
+  "Yuklamalar bo'yicha natija": {
+    "en": "Results by workload",
+    "ru": "Результат по нагрузкам"
+  },
+  "Yuklamaning tasdiqlangan fan, guruh va o'qituvchi manbalarini tekshiring.": {
+    "en": "Check the workload’s approved course, group and teacher sources.",
+    "ru": "Проверьте утверждённые источники дисциплины, группы и преподавателя нагрузки."
+  },
+  "{0} juftlik · {1} akademik soat · {2} daqiqa tanaffus": {
+    "en": "{0} class periods · {1} academic hours · {2} break minutes",
+    "ru": "Пар: {0} · Академических часов: {1} · Минут перерыва: {2}"
+  },
+  "{0} ta oldingi tasdiqlangan jadval nusxasi amaldagi yangi nusxa bilan almashtirilgan.": {
+    "en": "{0} earlier approved lesson versions have been superseded by approved revisions.",
+    "ru": "Предыдущих утверждённых версий занятий, заменённых новыми: {0}."
   }
 };

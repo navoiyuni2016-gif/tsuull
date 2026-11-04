@@ -1,3 +1,4 @@
+import {changeReason} from './academic-controls.mjs';
 import {randomUUID,createHash} from 'node:crypto';
 import {rateLimit} from 'express-rate-limit';
 import {transaction,audit} from './db.mjs';
@@ -87,7 +88,7 @@ export function registerPlanStudio(app,ctx){
         await snapshot(c,r,req.user.id);await audit(c,req.user.id,'PLAN_STUDIO_ROW',r.id,{parent:x.parent.id,suggestionId:suggestion?.id||null});
       }
       const parent=(await c.query("UPDATE portal.records SET revision=revision+1,status='DRAFT',updated_at=now() WHERE id=$1 RETURNING *",[x.parent.id])).rows[0];
-      await snapshot(c,parent,req.user.id);await audit(c,req.user.id,'PLAN_STUDIO_SAVED',parent.id,{count:items.length,suggestionId:suggestion?.id||null});
+      await snapshot(c,parent,req.user.id);await audit(c,req.user.id,'PLAN_STUDIO_SAVED',parent.id,{count:items.length,suggestionId:suggestion?.id||null,reason:changeReason(req.body.reason)});
       return {saved:true,parent,analysis:analyzePlan(items,x.subjects,x.rule,x.parent.data.onDate)};
     });res.json(result);
   });

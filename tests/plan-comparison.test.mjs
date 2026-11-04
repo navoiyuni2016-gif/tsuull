@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {planState,comparePlans,signedDifference,revisionPlanItems} from '../server/plan-comparison.mjs';
+const d=(id,module,data,extra={})=>({id,module,code:id,data:{code:id,name:id,...data},revision:1,status:'DRAFT',source_id:id,author_id:'author',...extra});
+const params={hoursPerCredit:'30',contactBasisPoints:4000,lectureBasisPoints:5000,practiceBasisPoints:5000,seminarBasisPoints:0,labBasisPoints:0,individualBasisPoints:0,practiceGroupMax:25,lectureStreamMax:100,seminarGroupMax:25,labGroupMax:15,individualUnit:'PER_STUDENT',roundingPlaces:2,roundingMode:'HALF_UP',remainderActivity:'practice',teacherAnnualLimit:'900',termCreditLimit:'30',programCredits:'6',termCount:2};
+const rule=d('RULE','rules',{legalBasis:'SYNTHETIC ONLY',effectiveFrom:'2026-09-01',effectiveTo:'2027-08-31',calculation:params},{status:'APPROVED',approved_by:'reviewer'});
+const oldSubject=d('SUBJECT-A','subjects',{credits:'1.25',department:'DEP'},{status:'APPROVED',approved_by:'reviewer',source_id:'COURSE-LINEAGE'});
+const newSubject=d('SUBJECT-A2','subjects',{credits:'2.5',name:'Saqlash Sh Ch <literal>',department:'DEP'},{status:'APPROVED',approved_by:'reviewer',source_id:'COURSE-LINEAGE'});
+const oldItem=d('ITEM-OLD','plan_items',{curriculum:'OLD',subject:oldSubject.id,semester:1});
+const old=d('OLD','curricula',{rule:rule.id,onDate:'2026-11-04',department:'DEP',year:'YEAR',_approval:{items:[{id:oldItem.id,revision:1,data:oldItem.data}],rule:{id:rule.id,revision:1,data:rule.data}}},{status:'APPROVED',approved_by:'reviewer'});
+const next=d('NEW','curricula',{rule:rule.id,onDate:'2026-11-04',department:'DEP',year:'YEAR'});
+const newItem=d('ITEM-NEW','plan_items',{curriculum:'NEW',subject:newSubject.id,semester:2});
+const all=[rule,oldSubject,newSubject,old,next,oldItem,newItem];
+let result=comparePlans(planState(old,all),planState(next,all));
+assert.equal(result.summary.CHANGED,1);assert.equal(result.deltas.credits,'+1.25');assert.equal(result.deltas.totalStudentHours,'+37.5');
+assert.deepEqual(result.rows[0].changed,['code','name','credits','semester','hours']);
+assert.equal(result.left.rows[0].semester,1);assert.equal(result.right.rows[0].semester,2);
+// A mutable row that once belonged to an approved plan cannot rewrite its snapshot.
+const drift=all.map(r=>r.id===oldItem.id?{...r,data:{...r.data,semester:9,_excluded:true}}:r);
+assert.equal(planState(old,drift).rows[0].semester,1);
+assert.equal(revisionPlanItems(old,drift)[0].data.semester,1);
+assert.equal(revisionPlanItems(old,drift)[0].source_id,oldItem.source_id);
+const withoutRule=planState({...next,data:{...next.data,rule:''}},all);assert.equal(withoutRule.totals.credits,'2.5');assert.equal(withoutRule.totals.totalStudentHours,null);assert.ok(withoutRule.issues.length);
+assert.equal(signedDifference('2.5','1.25'),'-1.25');assert.equal(signedDifference('0.1','0.3'),'+0.2');assert.equal(signedDifference(null,'0'),null);
+result=comparePlans(planState(old,all),planState({...next,data:{...next.data}},all.filter(r=>r.id!==newItem.id)));
+assert.equal(result.summary.REMOVED,1);
+assert.throws(()=>planState({...old,data:{...old.data,_approval:null}},all),/saqlangan tarkibi/);
+console.log('PASS plan comparison: frozen approved rows, lineage across course versions, exact credit/hour deltas, removals, missing norms and no historical fabrication');

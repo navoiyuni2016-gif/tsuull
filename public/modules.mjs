@@ -33,3 +33,6 @@ modules.teachers.fields.push(text('competenceCodes','Vakolatli fan kodlari (verg
 modules.curricula.description='Me’yor, tasdiqlangan fanlar, kredit balansi va prerequisite tekshiruvi bilan o‘quv reja tuzing.';
 modules.reports.description='Tasdiqda reja va tekshirilgan fakt manbalari o‘zgarmas snapshotga olinadi.';
 modules.additional_work.fields.push({...ref('rule','Yillik yuklama limit me’yori','rules'),required:false});
+
+// Optional links preserve existing schedule records; hours are derived on the server.
+modules.schedule.fields.push({...ref('workload','Tasdiqlangan yuklama','workloads'),required:false},{...ref('timeRule','Tasdiqlangan juftlik qoidasi','rules'),required:false},{...num('academicHours','Hisoblangan akademik soat',0.0001,10000),type:'decimal',required:false,readOnly:true});

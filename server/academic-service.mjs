@@ -1,3 +1,4 @@
+import {validateSchedulePolicy,scheduleBinding} from './schedule-calculation.mjs';
 import {computeAcademicCourse,validateParameters,validateCurriculum} from '../packages/domain/src/academic.mjs';
 import {toScaled,fromScaled,timesInt} from '../packages/domain/src/core.mjs';
 const activityKey={'Ma’ruza':'lecture','Amaliy':'practice','Seminar':'seminar','Laboratoriya':'lab'};
@@ -7,6 +8,8 @@ export function approvalSnapshot(record,all){
  const rule=get(d.rule);
  function approvedRule(){if(!rule||rule.module!=='rules')throw new Error('Tasdiqlangan hisoblash me’yorini tanlang.');if(rule.data.department&&rule.data.department!==(d.department||get(d.teacher)?.data.department))throw new Error('Me’yor kafedra doirasi mos emas.');if(rule.data.year&&rule.data.year!==d.year)throw new Error('Me’yor o‘quv yili doirasi mos emas.');if(!year||!d.onDate||d.onDate<year.data.start||d.onDate>year.data.end)throw new Error('Hisob sanasi tanlangan o‘quv yilida bo‘lsin.');return rule;}
  if(record.module==='rules'&&d.calculation){validateParameters(d.calculation);result={engine:'academic-v1',calculation:d.calculation};}
+ if(record.module==='rules'&&d.scheduleCalculation){validateSchedulePolicy(d.scheduleCalculation);if(!d.year)throw new Error('Juftlik qoidasi uchun o‘quv yilini tanlang.');result={...result,scheduleCalculation:d.scheduleCalculation};}
+ if(record.module==='schedule'){result=scheduleBinding(d,all)||{unlinked:true};}
  if(record.module==='curricula'){
   approvedRule();computeAcademicCourse({credits:'1',students:0,onDate:d.onDate},rule);
   const items=all.filter(r=>r.module==='plan_items'&&!r.data._excluded&&r.data.curriculum===record.id);const subjects=new Map(all.filter(r=>r.module==='subjects').map(r=>[r.id,r]));
