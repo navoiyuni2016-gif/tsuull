@@ -1,0 +1,57 @@
+"""Management flows against an isolated server and synthetic records only."""
+from pathlib import Path
+import secrets,sys
+from playwright.sync_api import sync_playwright,expect
+cfg=dict(l.split('=',1) for l in Path(sys.argv[1]).read_text().splitlines() if '=' in l)
+with sync_playwright() as p:
+    browser=p.chromium.launch(executable_path='/usr/bin/chromium',headless=True,args=['--no-sandbox'])
+    context=browser.new_context(viewport={'width':1440,'height':1000},color_scheme='light')
+    page=context.new_page();errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+    page.goto(cfg['APP_ORIGIN']+'/?lang=en')
+    assert page.locator('.language-label').all_text_contents()==[] or all(not s.strip() for s in page.locator('.language-label').all_text_contents())
+    page.fill('#email',cfg['USER_EMAIL']);page.fill('#password',cfg['USER_PASSWORD']);page.click('#login-form button[type=submit]');expect(page.locator('#app-view')).to_be_visible()
+    def route(name):
+        if page.viewport_size['width']<800:page.click('#menu-toggle')
+        page.locator('#sidebar [data-route="'+name+'"]').click()
+        page.wait_for_timeout(250)
+    def save_dialog():
+        page.locator('.management-dialog form button[type=submit]').click();expect(page.locator('.management-dialog')).to_have_count(0)
+    route('calculator');page.locator('#calc-form button[type=submit]').click()
+    expect(page.locator('[data-open-calculation]')).to_be_visible();expect(page.locator('#calc-output')).to_contain_text('180')
+    page.locator('[data-open-calculation]').click();expect(page.locator('.management-dialog')).to_contain_text('144')
+    page.locator('[data-dialog-close]').click();route('calculations');expect(page.locator('#history-table')).to_contain_text('180')
+    page.reload();expect(page.locator('#app-view')).to_be_visible();route('calculations');expect(page.locator('#history-table')).to_contain_text('180')
+    code='UI'+secrets.token_hex(4).upper()
+    result=page.evaluate('''async(code)=>{const me=await fetch('/api/me').then(r=>r.json());const r=await fetch('/api/records/faculties',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':me.csrf},body:JSON.stringify({data:{code,name:'Saqlash Sh Ch literal'}})});return r.status}''',code);assert result==201,result
+    page.reload();expect(page.locator('#app-view')).to_be_visible();route('faculties')
+    page.click('#records-columns');page.locator('.management-dialog [name=q]').fill(code)
+    page.locator('.management-dialog [name=column][value=__revision]').check();save_dialog()
+    expect(page.locator('#records-table')).to_contain_text('Saqlash Sh Ch literal');expect(page.locator('#records-table th')).to_contain_text(['Faculty code','Faculty name','Status','Version','Updated','Action'])
+    page.click('#records-save-view');page.locator('.management-dialog [name=title]').fill('Synthetic management view');save_dialog()
+    page.click('#records-xlsx')
+    with page.expect_download() as download:save_dialog()
+    assert download.value.suggested_filename.endswith('.xlsx')
+    page.click('#records-export')
+    with page.expect_download() as download:save_dialog()
+    path=download.value.path();assert Path(path).read_bytes().startswith(b'\xef\xbb\xbfsep=;')
+    page.click('#records-print')
+    with context.expect_page() as opened:save_dialog()
+    report=opened.value;report.wait_for_load_state();expect(report.locator('h1')).to_be_visible();expect(report.locator('tbody')).to_contain_text('Saqlash Sh Ch literal')
+    report.emulate_media(media='print');expect(report.locator('#print-report')).not_to_be_visible();report.close()
+    route('management');expect(page.locator('.saved-reports')).to_contain_text('Synthetic management view')
+    page.locator('[data-command=dashboard]').click()
+    for box in page.locator('.management-dialog [name=widget]').all():box.uncheck()
+    page.locator('.management-dialog [name=widget][value=curricula]').check();save_dialog()
+    page.locator('#reminder-settings [name=enabled]').uncheck();page.locator('#reminder-settings button').click()
+    expect(page.locator('#backup-settings')).to_be_visible()
+    page.reload();expect(page.locator('#app-view')).to_be_visible();route('management');expect(page.locator('#reminder-settings [name=enabled]')).not_to_be_checked()
+    page.locator('.saved-reports [data-command]').first.click();expect(page.locator('#record-search')).to_have_value(code)
+    route('dashboard');expect(page.locator('.stat-card:visible')).to_have_count(1)
+    route('review');expect(page.locator('#page-content')).to_contain_text('Approval queue')
+    page.set_viewport_size({'width':320,'height':800});route('management')
+    assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),'320px management overflow'
+    page.locator('.header-right .theme-toggle').click();expect(page.locator('html')).to_have_attribute('data-theme','night')
+    page.screenshot(path='/workspace/artifacts/management-mobile.png',full_page=True)
+    page.set_viewport_size({'width':1440,'height':1000});page.screenshot(path='/workspace/artifacts/management-desktop.png',full_page=True)
+    assert not errors,errors
+    browser.close();print('PASS management browser: automatic history/reload, raw names, columns/filters, saved view, XLSX/CSV/PDF, widgets, reminders, queue, backup UI and 320px dark layout')

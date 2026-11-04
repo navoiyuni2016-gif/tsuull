@@ -10,4 +10,5 @@ case "$mode" in
  cert) args+=(-f "$project_root/compose.cert.yaml") ;;
  *) echo 'Invalid .deploy-mode; use standalone, proxy or cert.' >&2; exit 1 ;;
 esac
+if [[ -f "$project_root/compose.management.yaml" ]]; then args+=(-f "$project_root/compose.management.yaml"); fi
 exec docker compose "${args[@]}" "$@"

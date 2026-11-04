@@ -4119,5 +4119,450 @@ export const messages = {
   "Kulrang": {
     "en": "Gray",
     "ru": "Серый"
+  },
+  "Avtomatik zaxiralash": {
+    "en": "Automatic backups",
+    "ru": "Автоматическое резервное копирование"
+  },
+  "Bo'yiga": {
+    "en": "Portrait",
+    "ru": "Книжная"
+  },
+  "Boshqaruv markazi": {
+    "en": "Management center",
+    "ru": "Центр управления"
+  },
+  "Bu yerda hisobotlarning ustun va filtr sozlamalari saqlanadi.": {
+    "en": "Column and filter settings for your reports are stored here.",
+    "ru": "Здесь сохраняются настройки столбцов и фильтров отчётов."
+  },
+  "CSV Excel bilan mos ochilsin": {
+    "en": "Make CSV compatible with Excel",
+    "ru": "Совместимость CSV с Excel"
+  },
+  "CSV ajratgichi": {
+    "en": "CSV separator",
+    "ru": "Разделитель CSV"
+  },
+  "CSV ajratgichi noto'g'ri.": {
+    "en": "Invalid CSV separator.",
+    "ru": "Некорректный разделитель CSV."
+  },
+  "CSV sozlamasi noto'g'ri.": {
+    "en": "Invalid CSV settings.",
+    "ru": "Некорректные настройки CSV."
+  },
+  "Davriylik, soat": {
+    "en": "Interval, hours",
+    "ru": "Интервал, часы"
+  },
+  "Eksport formati yoki tili noto'g'ri.": {
+    "en": "Invalid export format or language.",
+    "ru": "Некорректный формат или язык экспорта."
+  },
+  "Eslatma sozlamalari": {
+    "en": "Reminder settings",
+    "ru": "Настройки напоминаний"
+  },
+  "Eslatma sozlamalari noto'g'ri.": {
+    "en": "Invalid reminder settings.",
+    "ru": "Некорректные настройки напоминаний."
+  },
+  "Eslatma sozlamalari saqlandi.": {
+    "en": "Reminder settings saved.",
+    "ru": "Настройки напоминаний сохранены."
+  },
+  "Eslatmalar yoqilgan": {
+    "en": "Reminders enabled",
+    "ru": "Напоминания включены"
+  },
+  "Excel (.xlsx)": {
+    "en": "Excel (.xlsx)",
+    "ru": "Excel (.xlsx)"
+  },
+  "Filtr qiymati noto'g'ri.": {
+    "en": "Invalid filter value.",
+    "ru": "Некорректное значение фильтра."
+  },
+  "Filtrlar va ustunlar saqlanadi. Hisobot ochilganda joriy vakolatlar qayta tekshiriladi.": {
+    "en": "Filters and columns are saved. Current permissions are checked again when opening the report.",
+    "ru": "Сохраняются фильтры и столбцы. При открытии отчёта текущие права проверяются заново."
+  },
+  "Hisoblash so'rovi identifikatori noto'g'ri.": {
+    "en": "Invalid calculation request ID.",
+    "ru": "Некорректный ID запроса расчёта."
+  },
+  "Hisoblash tafsilotlari": {
+    "en": "Calculation details",
+    "ru": "Подробности расчёта"
+  },
+  "Hisoblash tarixi": {
+    "en": "Calculation history",
+    "ru": "История расчётов"
+  },
+  "Hisoblash tarixiga avtomatik saqlandi.": {
+    "en": "Automatically saved to calculation history.",
+    "ru": "Автоматически сохранено в истории расчётов."
+  },
+  "Hisoblash turi": {
+    "en": "Calculation type",
+    "ru": "Тип расчёта"
+  },
+  "Hisoblash turi noto'g'ri.": {
+    "en": "Invalid calculation type.",
+    "ru": "Некорректный тип расчёта."
+  },
+  "Hisoblash yozuvi topilmadi.": {
+    "en": "Calculation not found.",
+    "ru": "Расчёт не найден."
+  },
+  "Hisoblashlar hali yo'q.": {
+    "en": "No calculations yet.",
+    "ru": "Расчётов пока нет."
+  },
+  "Hisobot ko'rinishi saqlandi.": {
+    "en": "Report view saved.",
+    "ru": "Вид отчёта сохранён."
+  },
+  "Hisobot ko'rinishini saqlash": {
+    "en": "Save report view",
+    "ru": "Сохранить вид отчёта"
+  },
+  "Hisobot nomi 2–100 belgi bo'lsin.": {
+    "en": "The report name must contain 2–100 characters.",
+    "ru": "Название отчёта должно содержать 2–100 символов."
+  },
+  "Hisobot sozlamasi topilmadi.": {
+    "en": "Report configuration not found.",
+    "ru": "Настройка отчёта не найдена."
+  },
+  "Hisobot ustunlari noto'g'ri.": {
+    "en": "Invalid report columns.",
+    "ru": "Некорректные столбцы отчёта."
+  },
+  "Hisobotni chiqarish": {
+    "en": "Export report",
+    "ru": "Экспорт отчёта"
+  },
+  "Holat noto'g'ri.": {
+    "en": "Invalid status.",
+    "ru": "Некорректный статус."
+  },
+  "Jadval sozlamalari saqlandi.": {
+    "en": "Table settings saved.",
+    "ru": "Настройки таблицы сохранены."
+  },
+  "Joriy filtrlar va tanlangan ustunlar eksportga qo'llanadi.": {
+    "en": "Current filters and selected columns apply to the export.",
+    "ru": "При экспорте применяются текущие фильтры и выбранные столбцы."
+  },
+  "Joriy reyestr — rasmiy tasdiqlangan hisobot emas": {
+    "en": "Current register — not an officially approved report",
+    "ru": "Текущий реестр — не является официально утверждённым отчётом"
+  },
+  "Kerakli ko'rsatkichlarni tanlang.": {
+    "en": "Choose the indicators you need.",
+    "ru": "Выберите нужные показатели."
+  },
+  "Kimning ko'rib chiqishida ekanini va yuborilgan sanani ko'ring.": {
+    "en": "View documents awaiting review and their submission dates.",
+    "ru": "Просмотрите документы на рассмотрении и даты их отправки."
+  },
+  "Ko'rib chiqish": {
+    "en": "Review",
+    "ru": "Рассмотреть"
+  },
+  "Ko'rib chiqish navbati bo'sh.": {
+    "en": "The review queue is empty.",
+    "ru": "Очередь рассмотрения пуста."
+  },
+  "Ko'rinadigan ustunlar": {
+    "en": "Visible columns",
+    "ru": "Видимые столбцы"
+  },
+  "Kunduzgi rejimga o'tish": {
+    "en": "Switch to light mode",
+    "ru": "Переключить на светлый режим"
+  },
+  "Kutilgan kunlar": {
+    "en": "Days waiting",
+    "ru": "Дней ожидания"
+  },
+  "Manba versiyalari": {
+    "en": "Source versions",
+    "ru": "Версии источников"
+  },
+  "Manba: platformadagi vakolatingiz doirasidagi yozuvlar.": {
+    "en": "Source: platform records within your access scope.",
+    "ru": "Источник: записи платформы в области вашего доступа."
+  },
+  "Me'yor asosidagi hisob": {
+    "en": "Rule-based calculation",
+    "ru": "Расчёт по нормативу"
+  },
+  "Muddati o'tgan vazifalar": {
+    "en": "Overdue tasks",
+    "ru": "Просроченные задачи"
+  },
+  "Muvaffaqiyatli hisoblar serverda avtomatik saqlanadi.": {
+    "en": "Successful calculations are automatically saved on the server.",
+    "ru": "Успешные расчёты автоматически сохраняются на сервере."
+  },
+  "Navbatni ochish": {
+    "en": "Open queue",
+    "ru": "Открыть очередь"
+  },
+  "Necha kun oldin eslatilsin?": {
+    "en": "How many days in advance?",
+    "ru": "За сколько дней напоминать?"
+  },
+  "Nuqtali vergul": {
+    "en": "Semicolon",
+    "ru": "Точка с запятой"
+  },
+  "Ochish / yuklab olish": {
+    "en": "Open / download",
+    "ru": "Открыть / скачать"
+  },
+  "Oxirgi muvaffaqiyatli nusxa": {
+    "en": "Last successful backup",
+    "ru": "Последняя успешная резервная копия"
+  },
+  "Oxirgi tekshiruv": {
+    "en": "Last checked",
+    "ru": "Последняя проверка"
+  },
+  "Oxirgi zaxira muvaffaqiyatli": {
+    "en": "Last backup succeeded",
+    "ru": "Последнее копирование успешно"
+  },
+  "PDF uchun chop etish oynasida “PDF sifatida saqlash”ni tanlang.": {
+    "en": "Choose “Save as PDF” in the print dialog to create a PDF.",
+    "ru": "Для создания PDF выберите «Сохранить как PDF» в окне печати."
+  },
+  "Panel ko'rsatkichlari noto'g'ri.": {
+    "en": "Invalid dashboard indicators.",
+    "ru": "Некорректные показатели панели."
+  },
+  "Panelni sozlash": {
+    "en": "Customize dashboard",
+    "ru": "Настроить панель"
+  },
+  "Sahifa yo'nalishi": {
+    "en": "Page orientation",
+    "ru": "Ориентация страницы"
+  },
+  "Sahifa yo'nalishi noto'g'ri.": {
+    "en": "Invalid page orientation.",
+    "ru": "Некорректная ориентация страницы."
+  },
+  "Saqlangan hisob natijasi akademik tasdiq yoki o'qituvchiga biriktirish o'rnini bosmaydi.": {
+    "en": "A saved calculation does not replace academic approval or allocation to a teacher.",
+    "ru": "Сохранённый расчёт не заменяет академическое утверждение или назначение преподавателю."
+  },
+  "Saqlangan hisobot ko'rinishini olib tashlaysizmi?": {
+    "en": "Remove this saved report view?",
+    "ru": "Удалить этот сохранённый вид отчёта?"
+  },
+  "Saqlangan hisobotlar": {
+    "en": "Saved reports",
+    "ru": "Сохранённые отчёты"
+  },
+  "Saqlangan hisobotlar hali yo'q.": {
+    "en": "No saved reports yet.",
+    "ru": "Сохранённых отчётов пока нет."
+  },
+  "Serverdagi zaxiralash xizmati hali ulanmagan.": {
+    "en": "The server backup service is not connected yet.",
+    "ru": "Служба резервного копирования сервера пока не подключена."
+  },
+  "Shaxsiy boshqaruv paneli": {
+    "en": "Personal dashboard",
+    "ru": "Личная панель управления"
+  },
+  "Shaxsiy panel, saqlangan hisobotlar va eslatmalar.": {
+    "en": "Personal dashboard, saved reports and reminders.",
+    "ru": "Личная панель, сохранённые отчёты и напоминания."
+  },
+  "Sozlamalar boshqa oynada o'zgargan. Qayta oching.": {
+    "en": "Settings changed in another window. Reopen them.",
+    "ru": "Настройки изменены в другом окне. Откройте их заново."
+  },
+  "Sozlamalar shakli noto'g'ri.": {
+    "en": "Invalid settings structure.",
+    "ru": "Некорректная структура настроек."
+  },
+  "Takroriy so'rov parametrlari o'zgargan.": {
+    "en": "Retry parameters have changed.",
+    "ru": "Параметры повторного запроса изменились."
+  },
+  "Tarixda ochish": {
+    "en": "Open in history",
+    "ru": "Открыть в истории"
+  },
+  "Tasdiq kutayotgan hujjatlar": {
+    "en": "Documents awaiting approval",
+    "ru": "Документы, ожидающие утверждения"
+  },
+  "Tasdiqlash navbati": {
+    "en": "Approval queue",
+    "ru": "Очередь утверждения"
+  },
+  "Tilni tanlash": {
+    "en": "Choose language",
+    "ru": "Выбрать язык"
+  },
+  "Tungi rejim": {
+    "en": "Dark mode",
+    "ru": "Тёмный режим"
+  },
+  "Tungi rejimga o'tish": {
+    "en": "Switch to dark mode",
+    "ru": "Переключить на тёмный режим"
+  },
+  "Ustunlar va filtrlar": {
+    "en": "Columns and filters",
+    "ru": "Столбцы и фильтры"
+  },
+  "Vakolatingiz doirasidagi ko'rib chiqilayotgan hujjatlar.": {
+    "en": "Documents under review within your access scope.",
+    "ru": "Документы на рассмотрении в области вашего доступа."
+  },
+  "Vazifa muddati yaqinlashmoqda": {
+    "en": "Task deadline approaching",
+    "ru": "Приближается срок задачи"
+  },
+  "Versiya noto'g'ri.": {
+    "en": "Invalid version.",
+    "ru": "Некорректная версия."
+  },
+  "Yana yuklash": {
+    "en": "Load more",
+    "ru": "Загрузить ещё"
+  },
+  "Yuborilgan sana": {
+    "en": "Submitted on",
+    "ru": "Дата отправки"
+  },
+  "Zaxira va tizim holati": {
+    "en": "Backup and system status",
+    "ru": "Резервные копии и состояние системы"
+  },
+  "Zaxiralash jadvali noto'g'ri.": {
+    "en": "Invalid backup schedule.",
+    "ru": "Некорректное расписание резервного копирования."
+  },
+  "Zaxiralash jadvali saqlandi.": {
+    "en": "Backup schedule saved.",
+    "ru": "Расписание резервного копирования сохранено."
+  },
+  "Zaxiralash kutilmoqda": {
+    "en": "Waiting for a backup",
+    "ru": "Ожидание резервного копирования"
+  },
+  "Zaxiralashda xato": {
+    "en": "Backup failed",
+    "ru": "Ошибка резервного копирования"
+  },
+  "Format": {
+    "en": "Format",
+    "ru": "Формат"
+  },
+  "Eniga": {
+    "en": "Landscape",
+    "ru": "Альбомная"
+  },
+  "Hajmi": {
+    "en": "Size",
+    "ru": "Размер"
+  },
+  "Vergul": {
+    "en": "Comma",
+    "ru": "Запятая"
+  },
+  "Tabulyatsiya": {
+    "en": "Tab",
+    "ru": "Табуляция"
+  },
+  "Jami": {
+    "en": "Total",
+    "ru": "Итого"
+  },
+  "Ko'rinishni saqlash": {
+    "en": "Save view",
+    "ru": "Сохранить вид"
+  },
+  "BOSHQARUV": {
+    "en": "MANAGEMENT",
+    "ru": "УПРАВЛЕНИЕ"
+  },
+  "NAZORAT": {
+    "en": "MONITORING",
+    "ru": "КОНТРОЛЬ"
+  },
+  "HISOBLASH": {
+    "en": "CALCULATIONS",
+    "ru": "РАСЧЁТЫ"
+  },
+  "CALCULATION_SAVED": {
+    "uz": "Hisoblashni saqlash",
+    "en": "Calculation saved",
+    "ru": "Сохранение расчёта"
+  },
+  "PREFERENCES_UPDATED": {
+    "uz": "Shaxsiy sozlamalarni yangilash",
+    "en": "Personal preferences updated",
+    "ru": "Обновление личных настроек"
+  },
+  "REPORT_VIEW_SAVED": {
+    "uz": "Hisobot ko‘rinishini saqlash",
+    "en": "Report view saved",
+    "ru": "Сохранение вида отчёта"
+  },
+  "REPORT_VIEW_REMOVED": {
+    "uz": "Hisobot ko‘rinishini olib tashlash",
+    "en": "Report view removed",
+    "ru": "Удаление вида отчёта"
+  },
+  "BACKUP_SCHEDULE_UPDATED": {
+    "uz": "Zaxiralash jadvalini yangilash",
+    "en": "Backup schedule updated",
+    "ru": "Обновление расписания резервного копирования"
+  },
+  "Tasdiqlovchini belgilash": {
+    "en": "Assign reviewer",
+    "ru": "Назначить согласующего"
+  },
+  "Umumiy navbat": {
+    "en": "Shared queue",
+    "ru": "Общая очередь"
+  },
+  "Vakolatli tasdiqlovchilar navbati": {
+    "en": "Queue for authorized reviewers",
+    "ru": "Очередь уполномоченных согласующих"
+  },
+  "Faqat hujjat doirasida vakolatli alohida tasdiqlovchilar tanlanadi.": {
+    "en": "Only independent reviewers authorized for this document can be selected.",
+    "ru": "Можно выбрать только независимых согласующих с доступом к этому документу."
+  },
+  "Hujjat boshqa tasdiqlovchiga biriktirilgan.": {
+    "en": "The document is assigned to another reviewer.",
+    "ru": "Документ назначен другому согласующему."
+  },
+  "Tasdiqlovchi biriktirish ma'lumotlari noto'g'ri.": {
+    "en": "Invalid reviewer assignment details.",
+    "ru": "Некорректные данные назначения согласующего."
+  },
+  "Tasdiqlovchi boshqa oynada o'zgartirilgan.": {
+    "en": "The reviewer was changed in another window.",
+    "ru": "Согласующий изменён в другом окне."
+  },
+  "Vakolatli alohida tasdiqlovchini tanlang.": {
+    "en": "Select an authorized independent reviewer.",
+    "ru": "Выберите независимого уполномоченного согласующего."
+  },
+  "REVIEW_ASSIGNED": {
+    "en": "Reviewer assigned",
+    "ru": "Согласующий назначен"
   }
 };

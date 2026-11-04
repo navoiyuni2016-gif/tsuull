@@ -1,0 +1,4 @@
+services:
+  app:
+    volumes:
+      - ./var/management:/app/host-status:ro

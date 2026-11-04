@@ -93,8 +93,8 @@ export function initLanguage(canLeave=()=>true){
     n.setCustomValidity(t(n.validity.valueMissing?'Bu maydonni to‘ldiring.':n.validity.typeMismatch&&n.type==='email'?'To‘g‘ri email manzilini kiriting.':'Maydon qiymatini tekshiring.'));
   },true);
   for(const parent of [document.querySelector('.login-form'),document.querySelector('.header-right')]){
-    const label=document.createElement('label');label.className='language-picker';label.textContent=t('Til / Language')+' ';
-    const select=document.createElement('select');select.setAttribute('aria-label',t('Til / Language'));
+    const label=document.createElement('label');label.className='language-picker';
+    const select=document.createElement('select');select.setAttribute('aria-label',t('Tilni tanlash'));
     for(const l of languages){const option=document.createElement('option');option.value=l.id;option.textContent=l.label;select.append(option);}
     select.value=language;label.append(select);parent.prepend(label);
     select.onchange=()=>{

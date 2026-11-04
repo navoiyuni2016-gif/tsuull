@@ -16,20 +16,21 @@ with sync_playwright() as p:
     open_settings(page);page.fill('#appearance-hex','#7c3aed');page.click('#appearance-form button[type=submit]')
     assert accent(page)=='#7c3aed'
     login(page,cfg['USER_EMAIL'],cfg['USER_PASSWORD']);assert accent(page)=='#2859dc','Login preferences must not leak into an account'
-    open_settings(page);page.select_option('#appearance-mode','night');page.fill('#appearance-hex','#ffff00')
+    page.locator('.header-right .theme-toggle').click();open_settings(page);page.fill('#appearance-hex','#ffff00')
     expect(page.locator('html')).to_have_attribute('data-theme','night')
     assert page.locator('#appearance-form button[type=submit]').evaluate('(n)=>getComputedStyle(n).color')=='rgb(0, 0, 0)'
-    page.click('#appearance-cancel');assert accent(page)=='#2859dc';expect(page.locator('html')).to_have_attribute('data-theme','day')
-    open_settings(page);page.select_option('#appearance-mode','night');page.fill('#appearance-hex','#db2777');page.click('#appearance-form button[type=submit]')
+    page.click('#appearance-cancel');assert accent(page)=='#2859dc';expect(page.locator('html')).to_have_attribute('data-theme','night')
+    open_settings(page);page.fill('#appearance-hex','#db2777');page.click('#appearance-form button[type=submit]')
     page.reload();expect(page.locator('#app-view')).to_be_visible();assert accent(page)=='#db2777';expect(page.locator('html')).to_have_attribute('data-theme','night')
     page.screenshot(path='/workspace/artifacts/appearance-dark-desktop.png',full_page=True)
     page.emulate_media(media='print')
     assert page.evaluate('getComputedStyle(document.body).backgroundColor')=='rgb(255, 255, 255)'
     expect(page.locator('.header-right .appearance-open')).not_to_be_visible()
     page.emulate_media(media='screen');expect(page.locator('html')).to_have_attribute('data-theme','night');assert accent(page)=='#db2777'
-    open_settings(page);page.select_option('#appearance-mode','auto');page.click('#appearance-form button[type=submit]')
-    page.emulate_media(color_scheme='dark');expect(page.locator('html')).to_have_attribute('data-theme','night')
-    page.emulate_media(color_scheme='light');expect(page.locator('html')).to_have_attribute('data-theme','day')
+    page.emulate_media(color_scheme='light');expect(page.locator('html')).to_have_attribute('data-theme','night')
+    page.locator('.header-right .theme-toggle').click();expect(page.locator('html')).to_have_attribute('data-theme','day')
+    page.emulate_media(color_scheme='dark');expect(page.locator('html')).to_have_attribute('data-theme','day')
+    page.emulate_media(color_scheme='light')
     page.set_viewport_size({'width':390,'height':844});page.wait_for_timeout(400)
     expect(page.locator('.header-right .appearance-open')).to_be_visible();assert page.evaluate('document.documentElement.scrollWidth<=innerWidth')
     open_settings(page);page.fill('#appearance-hex','#12');page.click('#appearance-form button[type=submit]');expect(page.locator('#appearance-dialog')).to_be_visible()
@@ -47,7 +48,7 @@ with sync_playwright() as p:
     for lang,title,night in [('uz','Interfeys sozlamalari','Tungi'),('ru','Настройки оформления','Тёмный'),('en','Appearance settings','Dark'),('uz-new','Interfeys sozlamalari','Tungi')]:
         ctx=browser.new_context(viewport={'width':390,'height':844},color_scheme='light');pg=ctx.new_page();pg.on('pageerror',lambda e:errors.append(str(e)))
         pg.goto(cfg['APP_ORIGIN']+'/?lang='+lang);expect(pg.locator('#login-view')).to_be_visible();open_settings(pg)
-        expect(pg.locator('#appearance-dialog h2')).to_have_text(title);expect(pg.locator('#appearance-mode option[value=night]')).to_have_text(night)
+        expect(pg.locator('#appearance-dialog h2')).to_have_text(title);assert pg.locator('#appearance-mode').count()==0
         assert pg.evaluate('document.documentElement.scrollWidth<=innerWidth')
         if lang=='en':
             pg.evaluate("()=>{Storage.prototype.setItem=function(){throw new Error('Synthetic blocked storage')}}")

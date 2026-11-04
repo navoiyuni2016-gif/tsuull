@@ -69,7 +69,7 @@ with sync_playwright() as p:
         assert saved.value.status==201
         payload=saved.value.json()['data'];assert payload['category']=='Majburiy' and payload['name']=='Saqlash Sh Ch O‘ G‘' and payload['credits']=='1.25'
         expect(page.locator('#editor-dialog')).not_to_be_visible()
-        for route in ['studio','official','calculator','settings','profile','import','forecast','system','users','audit','notifications','modules']:
+        for route in ['studio','official','calculator','management','calculations','review','settings','profile','import','forecast','system','users','audit','notifications','modules']:
             if route in ['calculator','modules']:
                 page.evaluate('(id)=>{location.hash=id}',route)
             else:page.locator('#navigation [data-route="'+route+'"]').click()

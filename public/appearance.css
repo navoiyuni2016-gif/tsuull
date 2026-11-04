@@ -47,3 +47,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 :root label,.login-form .eyebrow{color:var(--muted)}
 input::placeholder,textarea::placeholder{color:var(--muted);opacity:1}
 input[type=checkbox],input[type=radio]{accent-color:var(--accent-ink)}
+/* Day/night is a separate single-click control. */
+.theme-toggle{font-size:16px;flex-shrink:0;color:var(--accent-ink)}.theme-toggle svg{width:19px;height:19px}
+.login-personalization .theme-toggle{margin:0;width:34px;min-height:34px}
+.login-personalization .language-picker{min-width:0;flex:1}.login-personalization .language-picker select{min-width:0;width:100%}
+.login-personalization .appearance-open{flex-shrink:0}
+@media(max-width:420px){.login-personalization .appearance-open>span{display:none}.login-personalization .appearance-open{width:34px;padding:7px}.topbar{padding-right:10px;padding-left:10px;gap:8px}.header-right>.language-picker select{max-width:100px}.topbar .header-right{gap:4px}.account-button>[aria-hidden]{display:none}.account-button{gap:0}}
+@media print{.theme-toggle{display:none!important}}
+.calc-result{background:var(--accent-soft);color:var(--accent-ink)}.calc-result strong{color:var(--accent-ink)}.calc-result small,.calc-result-row{color:var(--muted)}.calc-result-row b{color:var(--text)}.calc-result-row{border-color:var(--border)}
