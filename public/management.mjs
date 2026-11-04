@@ -40,9 +40,41 @@ export function configureTable(module,onSave,filters={}){
 }
 export function openExport(module,format,filters={}){
  const config=structuredClone(tableConfig(module));config.filters={...config.filters,...filters};
- const d=dialog('Hisobotni chiqarish','<form><p class="muted">'+e(t('Joriy filtrlar va tanlangan ustunlar eksportga qo‘llanadi.'))+'</p><label>'+e(t('Format'))+'<select name="format">'+[['xlsx','Excel (.xlsx)'],['csv','CSV'],['html','PDF / Chop etish']].map(([value,label])=>'<option value="'+value+'" '+(value===format?'selected':'')+'>'+e(t(label))+'</option>').join('')+'</select></label><label>'+e(t('Tilni tanlash'))+'<select name="lang">'+[['uz','O‘zbekcha'],['ru','Русский'],['en','English'],['uz-new','Özbekça · Ş Ç Ö Ğ']].map(([v,label])=>'<option value="'+v+'" '+(v===language?'selected':'')+'>'+label+'</option>').join('')+'</select></label><div class="form-grid"><label>'+e(t('CSV ajratgichi'))+'<select name="delimiter">'+[[';','Nuqtali vergul'],[',','Vergul'],['\t','Tabulyatsiya']].map(([v,label])=>'<option value="'+e(v)+'" '+(v===config.delimiter?'selected':'')+'>'+e(t(label))+'</option>').join('')+'</select></label><label>'+e(t('Sahifa yo‘nalishi'))+'<select name="orientation"><option value="landscape">'+e(t('Eniga'))+'</option><option value="portrait">'+e(t('Bo‘yiga'))+'</option></select></label></div><label class="toggle-line"><input type="checkbox" name="excelCsv" '+(config.excelCsv?'checked':'')+'>'+e(t('CSV Excel bilan mos ochilsin'))+'</label><div class="dialog-actions"><button class="button primary" type="submit">'+e(t('Ochish / yuklab olish'))+'</button></div></form>');
- d.querySelector('[name=orientation]').value=config.orientation;
- d.querySelector('form').onsubmit=event=>{event.preventDefault();const f=d.querySelector('form'),params=new URLSearchParams({...config.filters,columns:config.columns.join(','),format:f.elements.format.value,lang:f.elements.lang.value,delimiter:f.elements.delimiter.value,excelCsv:f.elements.excelCsv.checked?'1':'0',orientation:f.elements.orientation.value});const url='/api/management/export/'+module+'?'+params;if(f.elements.format.value==='html')window.open(url,'_blank','noopener');else location.href=url;d.close();};
+ const formats=[['xlsx','Excel (.xlsx)'],['csv','CSV'],['html','PDF / Chop etish']];
+ const languages=[['uz','O‘zbekcha'],['ru','Русский'],['en','English'],['uz-new','Özbekça · Ş Ç Ö Ğ']];
+ const d=dialog('Hisobotni chiqarish','<form class="export-form"><p class="muted export-lead">'+e(t('Joriy filtrlar va tanlangan ustunlar eksportga qo‘llanadi.'))+'</p><div class="form-grid export-controls"><label>'+e(t('Format'))+'<select name="format">'+formats.map(([v,label])=>'<option value="'+v+'" '+(v===format?'selected':'')+'>'+e(t(label))+'</option>').join('')+'</select></label><label>'+e(t('Tilni tanlash'))+'<select name="lang">'+languages.map(([v,label])=>'<option value="'+v+'" '+(v===language?'selected':'')+'>'+e(label)+'</option>').join('')+'</select></label></div><div class="export-summary"><span class="export-file-icon" aria-hidden="true" data-format-badge></span><div><strong data-format-title></strong><p data-format-note></p></div></div><section class="export-options" data-csv-settings><label>'+e(t('CSV ajratgichi'))+'<select name="delimiter">'+[[';','Nuqtali vergul'],[',','Vergul'],['\t','Tabulyatsiya']].map(([v,label])=>'<option value="'+e(v)+'" '+(v===config.delimiter?'selected':'')+'>'+e(t(label))+'</option>').join('')+'</select></label><label class="toggle-line export-excel-option"><input type="checkbox" name="excelCsv" '+(config.excelCsv?'checked':'')+'><span>'+e(t('CSV Excel bilan mos ochilsin'))+'<small>'+e(t('Fayl Excelda alohida ustunlarga ajraladi.'))+'</small></span></label></section><section class="export-options" data-page-settings><label>'+e(t('Sahifa yo‘nalishi'))+'<select name="orientation"><option value="landscape">'+e(t('Eniga'))+'</option><option value="portrait">'+e(t('Bo‘yiga'))+'</option></select></label></section><section class="export-preview" aria-busy="true"><div class="export-preview-head"><h3>'+e(t('Jadval namunasi'))+'</h3><span data-export-count aria-live="polite">'+e(t('Yuklanmoqda...'))+'</span></div><div data-export-table></div><p class="export-preview-caption muted">'+e(t('Dastlabki 5 ta yozuv ko‘rsatiladi. Faylga barcha mos yozuvlar kiritiladi.'))+'</p></section><div class="dialog-actions export-actions"><span class="muted export-columns">'+e(t('{0} ta ustun',[config.columns.length]))+'</span><button class="button primary" type="submit" data-export-submit>'+e(t('Yuklab olish'))+'</button></div></form>');
+ d.classList.add('export-dialog');
+ const f=d.querySelector('form');f.elements.orientation.value=config.orientation;
+ function syncFormat(){
+  const kind=f.elements.format.value,csv=kind==='csv';
+  d.querySelector('[data-csv-settings]').hidden=!csv;d.querySelector('[data-page-settings]').hidden=csv;
+  d.querySelector('[data-format-badge]').textContent={csv:'CSV',xlsx:'XLSX',html:'PDF'}[kind];
+  d.querySelector('[data-format-title]').textContent=t({csv:'CSV ma’lumotlar jadvali',xlsx:'Bezatilgan Excel hisoboti',html:'Rasmiy uslubdagi PDF hujjat'}[kind]);
+  d.querySelector('[data-format-note]').textContent=t({csv:'Rangli jadval uchun Excel (.xlsx) formatini tanlang.',xlsx:'Tartibli sarlavhalar, ranglar va son formatlari bilan.',html:'Universitet sarlavhasi va sahifa raqamlari bilan.'}[kind]);
+  d.querySelector('[data-export-submit]').textContent=t(kind==='html'?'PDF sahifasini ochish':'Yuklab olish');
+ }
+ let sequence=0;
+ async function preview(){
+  const request=++sequence,box=d.querySelector('[data-export-table]'),panel=d.querySelector('.export-preview'),count=d.querySelector('[data-export-count]');
+  panel.setAttribute('aria-busy','true');count.textContent=t('Yuklanmoqda...');box.replaceChildren();box.classList.remove('error');box.removeAttribute('role');
+  try{
+   const params=new URLSearchParams({...config.filters,columns:config.columns.join(','),format:'preview',lang:f.elements.lang.value});
+   const result=await ctx.api('/management/export/'+module+'?'+params);
+   if(!d.isConnected||request!==sequence)return;
+   count.textContent=t('{0} yozuv · {1} ustun',[result.total,result.columnCount]);
+   box.innerHTML=result.rows.length?'<div class="export-table-scroll"><table><thead><tr>'+result.headers.map(v=>'<th scope="col">'+e(v)+'</th>').join('')+'</tr></thead><tbody>'+result.rows.map(row=>'<tr>'+row.map(v=>'<td>'+e(v)+'</td>').join('')+'</tr>').join('')+'</tbody></table></div>':'<div class="export-empty">'+e(t('Yozuv topilmadi'))+'</div>';
+  }catch(error){if(d.isConnected&&request===sequence){count.textContent='';box.textContent=error.message;box.classList.add('error');box.setAttribute('role','alert');}}
+  finally{if(d.isConnected&&request===sequence)panel.setAttribute('aria-busy','false');}
+ }
+ f.elements.format.onchange=syncFormat;f.elements.lang.onchange=preview;
+ f.onsubmit=event=>{
+  event.preventDefault();
+  const params=new URLSearchParams({...config.filters,columns:config.columns.join(','),format:f.elements.format.value,lang:f.elements.lang.value,delimiter:f.elements.delimiter.value,excelCsv:f.elements.excelCsv.checked?'1':'0',orientation:f.elements.orientation.value});
+  const url='/api/management/export/'+module+'?'+params;
+  if(f.elements.format.value==='html')window.open(url,'_blank','noopener');else location.href=url;
+  d.close();
+ };
+ syncFormat();preview();
 }
 export function saveReportView(module,filters={}){
  const config=structuredClone(tableConfig(module));config.filters={...config.filters,...filters};

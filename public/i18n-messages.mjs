@@ -4672,5 +4672,57 @@ export const messages = {
   "REYESTRDAN KO'CHIRMA": {
     "en": "REGISTER EXTRACT",
     "ru": "ВЫПИСКА ИЗ РЕЕСТРА"
+  },
+  "Fayl Excelda alohida ustunlarga ajraladi.": {
+    "en": "The file opens in separate columns in Excel.",
+    "ru": "Файл открывается в Excel с отдельными столбцами."
+  },
+  "Jadval namunasi": {
+    "en": "Table preview",
+    "ru": "Предпросмотр таблицы"
+  },
+  "Dastlabki 5 ta yozuv ko'rsatiladi. Faylga barcha mos yozuvlar kiritiladi.": {
+    "en": "The first 5 records are shown. The file includes all matching records.",
+    "ru": "Показаны первые 5 записей. В файл попадут все записи, соответствующие фильтрам."
+  },
+  "{0} ta ustun": {
+    "en": "{0} columns",
+    "ru": "Столбцов: {0}"
+  },
+  "Yuklab olish": {
+    "en": "Download",
+    "ru": "Скачать"
+  },
+  "CSV ma'lumotlar jadvali": {
+    "en": "CSV data table",
+    "ru": "Таблица данных CSV"
+  },
+  "Bezatilgan Excel hisoboti": {
+    "en": "Formatted Excel report",
+    "ru": "Оформленный отчёт Excel"
+  },
+  "Rasmiy uslubdagi PDF hujjat": {
+    "en": "Formal PDF document",
+    "ru": "PDF-документ в официальном стиле"
+  },
+  "Rangli jadval uchun Excel (.xlsx) formatini tanlang.": {
+    "en": "Choose Excel (.xlsx) for a formatted table with colors.",
+    "ru": "Для цветного оформления таблицы выберите Excel (.xlsx)."
+  },
+  "Tartibli sarlavhalar, ranglar va son formatlari bilan.": {
+    "en": "With clear headings, colors and number formatting.",
+    "ru": "С аккуратными заголовками, цветами и форматированием чисел."
+  },
+  "Universitet sarlavhasi va sahifa raqamlari bilan.": {
+    "en": "With university letterhead and page numbers.",
+    "ru": "С шапкой университета и нумерацией страниц."
+  },
+  "PDF sahifasini ochish": {
+    "en": "Open PDF page",
+    "ru": "Открыть страницу PDF"
+  },
+  "{0} yozuv · {1} ustun": {
+    "en": "{0} records · {1} columns",
+    "ru": "Записей: {0} · Столбцов: {1}"
   }
 };

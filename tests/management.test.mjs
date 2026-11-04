@@ -87,6 +87,8 @@ test('rule-based history freezes exact source versions and honors later scope ch
  const r=await call('/calculate',{role:'OPERATOR',method:'POST',body:{ruleId:rule.id,subjectId:subject.id,groupId:group.id,onDate:'2026-11-04'}});assert.equal(r.status,200,JSON.stringify(r.data));assert.equal(r.data.totalStudentHours,'37.5');assert.equal(r.data.basicTeachingDemand,'30');
  const detail=await call('/calculations/'+r.data.history.id,{role:'OPERATOR'});assert.equal(detail.status,200);assert.equal(detail.data.kind,'RULE_BASED');assert.equal(detail.data.actor_role,'OPERATOR');assert.equal(detail.data.sources.find(s=>s.id===rule.id).revision,rule.revision);assert.equal(detail.data.sources.find(s=>s.id===subject.id).data.credits,'1.25');
  await pool.query('UPDATE portal.users SET department_id=$1 WHERE id=$2',[other.id,accounts.OPERATOR.id]);
+ const preview=await call('/management/export/subjects?'+new URLSearchParams({format:'preview',q:subject.code,columns:'code,name'}),{role:'OPERATOR'});
+ assert.equal(preview.status,200);assert.equal(preview.data.total,0);assert.deepEqual(preview.data.rows,[]);
  assert.equal((await call('/calculations/'+r.data.history.id,{role:'OPERATOR'})).status,404);
  assert.equal((await call('/calculations/'+r.data.history.id+'/print',{role:'OPERATOR',raw:true})).status,404);
  const paper=await call('/calculations/'+r.data.history.id+'/print?lang=ru',{raw:true});assert.equal(paper.status,200);
@@ -102,6 +104,24 @@ test('exports retain filtered authorized rows and reject invalid column and form
  assert.equal((await call('/management/export/subjects?columns=password_hash')).status,400);
  assert.equal((await call('/management/export/subjects?format=exe')).status,400);
  assert.equal((await call('/management/export/subjects?lang=unknown')).status,400);
+});
+test('CSV preview uses the same filters, columns and language as download; sample is capped at five rows',async()=>{
+ const prefix='PV'+run.toUpperCase();
+ for(let n=0;n<6;n++){
+  const r=await call('/records/faculties',{method:'POST',body:{data:{code:prefix+n,name:'Saqlash Sh Ch <b>literal</b> '+n}}});assert.equal(r.status,201);
+ }
+ const query=new URLSearchParams({format:'preview',q:prefix,lang:'ru',columns:'name,code,__status'});
+ const preview=await call('/management/export/faculties?'+query);
+ assert.equal(preview.status,200);assert.equal(preview.data.total,6);assert.equal(preview.data.rows.length,5);assert.equal(preview.data.columnCount,3);
+ assert.deepEqual(preview.data.headers,['Название факультета','Код факультета','Статус']);
+ assert.ok(preview.data.rows[0][0].includes('Saqlash Sh Ch <b>literal</b>'));
+ query.set('format','csv');query.set('delimiter',';');query.set('excelCsv','1');
+ const csv=await call('/management/export/faculties?'+query,{raw:true});assert.equal(csv.status,200);
+ assert.ok(csv.data.toString().endsWith('\r\n'));assert.ok(csv.headers.get('content-disposition').includes("filename*=UTF-8''"));
+ assert.ok(decodeURIComponent(csv.headers.get('content-disposition')).includes('Факультеты'));
+ assert.ok(csv.data.toString().includes('"'+preview.data.headers[0]+'"'));
+ assert.equal((csv.data.toString().match(/Saqlash Sh Ch/g)||[]).length,6);
+ query.set('format','preview');query.set('status','APPROVED');assert.equal((await call('/management/export/faculties?'+query)).data.total,0);
 });
 test('review assignments require admin and an independent scoped reviewer; stale assignments cannot bypass workflow',async()=>{
  const email='review-b-'+run+'@management.invalid';

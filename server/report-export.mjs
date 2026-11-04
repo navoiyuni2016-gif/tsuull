@@ -15,19 +15,19 @@ export function reportData({module,rows,all,config,lang='uz'}){
  const spec=modules[module],t=createTranslator(lang),map=new Map(all.map(r=>[r.id,r]));
  const field=key=>spec.fields.find(f=>f.key===key);
  const label=key=>t(field(key)?.label||{__status:'Holat',__revision:'Versiya',__updated:'Yangilangan'}[key]);
- const raw=(r,key)=>key==='__status'?r.status:key==='__revision'?r.revision:key==='__updated'?new Intl.DateTimeFormat(languages.find(l=>l.id===lang)?.locale||'uz-UZ',{timeZone:'Asia/Tashkent',dateStyle:'short',timeStyle:'short'}).format(new Date(r.updated_at)):r.data[key]??'';
+ const raw=(r,key)=>key==='__status'?r.status:key==='__revision'?r.revision:key==='__updated'?new Intl.DateTimeFormat(languages.find(l=>l.id===lang)?.locale||'uz-UZ',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(r.updated_at)):r.data[key]??'';
  const value=(r,key)=>{const f=field(key),v=raw(r,key);if(f?.type==='ref'){const ref=map.get(v);return ref?ref.code+' · '+ref.data.name:v;}if(f?.type==='select'||key==='__status')return t(v);return v;};
  const totals={};for(const key of config.columns)if(['credits','hours','students','quantity'].includes(key)&&['decimal','number'].includes(field(key)?.type)){let sum=0n;for(const r of rows)sum+=toScaled(String(raw(r,key)||'0'));totals[key]=fromScaled(sum);}
  return {referenceNames:new Map(all.map(r=>[r.id,r.code+' · '+r.data.name])),headers:config.columns.map(label),values:rows.map(r=>config.columns.map(k=>value(r,k))),totals,columns:config.columns,field,value,t};
 }
 export function csvReport(report,{delimiter=';',excelCsv=true}={}){
  const cell=v=>{let s=String(v??'');if(/^[\s]*[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"';};
- return '\uFEFF'+(excelCsv?'sep='+delimiter+'\r\n':'')+[report.headers,...report.values].map(row=>row.map(cell).join(delimiter)).join('\r\n');
+ return '\uFEFF'+(excelCsv?'sep='+delimiter+'\r\n':'')+[report.headers,...report.values].map(row=>row.map(cell).join(delimiter)).join('\r\n')+'\r\n';
 }
 export async function xlsxReport({module,rows,all,config,lang,profile,createdAt}){
  const report=reportData({module,rows,all,config,lang}),{t}=report,spec=modules[module],n=config.columns.length;
  const title=(value,size=12)=>[{...text(value),fontWeight:'bold',fontSize:size,columnSpan:n},...Array(n-1).fill(null)];
- const metadata=t('Yaratilgan:')+' '+new Intl.DateTimeFormat(languages.find(l=>l.id===lang)?.locale||'uz-UZ',{timeZone:'Asia/Tashkent',dateStyle:'short',timeStyle:'short'}).format(createdAt)+' · '+rows.length+' '+t('ta yozuv');
+ const metadata=t('Yaratilgan:')+' '+new Intl.DateTimeFormat(languages.find(l=>l.id===lang)?.locale||'uz-UZ',{timeZone:'Asia/Tashkent',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(createdAt)+' · '+rows.length+' '+t('ta yozuv');
  const view=[title(t(spec.title),18),title(profile.universityName||profile.shortName||'TSUULL'),title(metadata,10),title(t('Joriy reyestr — rasmiy tasdiqlangan hisobot emas'),10),report.headers.map(value=>({...text(value),fontWeight:'bold',backgroundColor:'#E8EDF3',color:'#1B2940',wrap:true,bottomBorderColor:'#A8B3C4',bottomBorderStyle:'thin'}))];
  for(const [i,row]of report.values.entries())view.push(row.map((value,j)=>{
   const numeric=['decimal','number'].includes(report.field(config.columns[j])?.type)&&value!=='';
@@ -53,14 +53,15 @@ export function htmlReport({module,report,profile,createdAt,config,lang}){
 export function registerReportExports(app,{pool,fail,allRecords}){
  app.get('/api/management/export/:module',async(req,res)=>{
   const module=req.params.module,lang=req.query.lang||'uz',format=req.query.format||'xlsx';
-  if(!Object.hasOwn(modules,module))fail(404,'Modul topilmadi.');if(!languages.some(l=>l.id===lang)||!['xlsx','csv','html'].includes(format))fail(400,'Eksport formati yoki tili noto‘g‘ri.');
+  if(!Object.hasOwn(modules,module))fail(404,'Modul topilmadi.');if(!languages.some(l=>l.id===lang)||!['xlsx','csv','html','preview'].includes(format))fail(400,'Eksport formati yoki tili noto‘g‘ri.');
   const config=validateReport(module,{columns:req.query.columns?String(req.query.columns).split(','):undefined,filters:{q:String(req.query.q||''),status:String(req.query.status||''),year:String(req.query.year||''),department:String(req.query.department||'')},delimiter:req.query.delimiter||';',excelCsv:req.query.excelCsv!=='0',orientation:req.query.orientation||'landscape'});
   const all=await allRecords(pool);const dimensions=r=>recordDimensions(r,all);
   const rows=all.filter(r=>r.module===module&&!r.data._excluded&&visible(r,req.user,all)&&(!config.filters.q||(r.code+' '+r.data.name).toLocaleLowerCase().includes(config.filters.q.toLocaleLowerCase()))&&(!config.filters.status||r.status===config.filters.status)&&(!config.filters.year||dimensions(r).year===config.filters.year)&&(!config.filters.department||dimensions(r).department===config.filters.department));
   const visibleSources=all.filter(r=>visible(r,req.user,all));
   const profile=(await pool.query('SELECT profile FROM portal.settings WHERE id=true')).rows[0]?.profile||{},createdAt=new Date(),data=reportData({module,rows,all:visibleSources,config,lang});
+  if(format==='preview')return res.json({headers:data.headers,rows:data.values.slice(0,5),total:rows.length,columnCount:config.columns.length,sampleLimit:5});
   if(format==='html')return res.type('html').send(htmlReport({module,report:data,profile,createdAt,config,lang}));
-  const filename=module+'-'+createdAt.toISOString().slice(0,10)+'.'+format;res.set('Content-Disposition','attachment; filename="'+filename+'"');
+  const filename=module+'-'+createdAt.toISOString().slice(0,10)+'.'+format,nativeName=data.t(modules[module].title)+'-'+createdAt.toISOString().slice(0,10)+'.'+format;const encoded=encodeURIComponent(nativeName).replace(/[!'()*]/g,c=>'%'+c.charCodeAt(0).toString(16).toUpperCase());res.set('Content-Disposition','attachment; filename="'+filename+'"; filename*=UTF-8\'\''+encoded);
   if(format==='csv')return res.type('text/csv; charset=utf-8').send(csvReport(data,config));
   res.type('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet').send(await xlsxReport({module,rows,all:visibleSources,config,lang,profile,createdAt}));
  });
