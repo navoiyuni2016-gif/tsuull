@@ -1,3 +1,5 @@
+import {calculationDocument} from './print-document.mjs';
+import {languages} from '../public/i18n.mjs';
 import {createHash,randomUUID} from 'node:crypto';
 import {transaction,audit} from './db.mjs';
 import {visible} from './scopes.mjs';
@@ -31,10 +33,17 @@ export function registerCalculationHistory(app,{pool,fail,allRecords}){
   const items=(await pool.query('SELECT id,actor_id,actor_name,actor_role,kind,input,result,sources,created_at FROM portal.calculation_runs WHERE '+filter+' ORDER BY created_at DESC,id DESC LIMIT 50 OFFSET $'+params.length,params)).rows;
   res.json({items,total,nextOffset:offset+items.length<total?offset+items.length:null});
  });
- app.get('/api/calculations/:id',async(req,res)=>{
+ async function findRun(req){
   if(!uuid(req.params.id))fail(404,'Hisoblash yozuvi topilmadi.');
   const {where,params}=await scope(req);params.push(req.params.id);
   const row=(await pool.query('SELECT * FROM portal.calculation_runs WHERE '+where+' AND id=$'+params.length,params)).rows[0];
-  if(!row)fail(404,'Hisoblash yozuvi topilmadi.');res.json(row);
+  if(!row)fail(404,'Hisoblash yozuvi topilmadi.');return row;
+ }
+ app.get('/api/calculations/:id',async(req,res)=>res.json(await findRun(req)));
+ app.get('/api/calculations/:id/print',async(req,res)=>{
+  const run=await findRun(req),lang=req.query.lang||'uz';
+  if(!languages.some(l=>l.id===lang))fail(400,'Eksport formati yoki tili noto‘g‘ri.');
+  const profile=(await pool.query('SELECT profile FROM portal.settings WHERE id=true')).rows[0]?.profile||{};
+  res.type('html').send(calculationDocument({run,profile,lang}));
  });
 }

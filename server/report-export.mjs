@@ -1,3 +1,4 @@
+import {documentHtml,escapeHtml,registryReference} from './print-document.mjs';
 import {recordDimensions} from '../public/record-dimensions.mjs';
 import writeXlsx from 'write-excel-file/node';
 import {unzipSync,zipSync,strFromU8,strToU8} from 'fflate';
@@ -17,7 +18,7 @@ export function reportData({module,rows,all,config,lang='uz'}){
  const raw=(r,key)=>key==='__status'?r.status:key==='__revision'?r.revision:key==='__updated'?new Intl.DateTimeFormat(languages.find(l=>l.id===lang)?.locale||'uz-UZ',{timeZone:'Asia/Tashkent',dateStyle:'short',timeStyle:'short'}).format(new Date(r.updated_at)):r.data[key]??'';
  const value=(r,key)=>{const f=field(key),v=raw(r,key);if(f?.type==='ref'){const ref=map.get(v);return ref?ref.code+' · '+ref.data.name:v;}if(f?.type==='select'||key==='__status')return t(v);return v;};
  const totals={};for(const key of config.columns)if(['credits','hours','students','quantity'].includes(key)&&['decimal','number'].includes(field(key)?.type)){let sum=0n;for(const r of rows)sum+=toScaled(String(raw(r,key)||'0'));totals[key]=fromScaled(sum);}
- return {headers:config.columns.map(label),values:rows.map(r=>config.columns.map(k=>value(r,k))),totals,columns:config.columns,field,value,t};
+ return {referenceNames:new Map(all.map(r=>[r.id,r.code+' · '+r.data.name])),headers:config.columns.map(label),values:rows.map(r=>config.columns.map(k=>value(r,k))),totals,columns:config.columns,field,value,t};
 }
 export function csvReport(report,{delimiter=';',excelCsv=true}={}){
  const cell=v=>{let s=String(v??'');if(/^[\s]*[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replaceAll('"','""')+'"';};
@@ -43,8 +44,11 @@ export async function xlsxReport({module,rows,all,config,lang,profile,createdAt}
  return Buffer.from(zipSync(zip));
 }
 export function htmlReport({module,report,profile,createdAt,config,lang}){
- const {t}=report,locale=languages.find(l=>l.id===lang),title=t(modules[module].title),filters=Object.entries(config.filters).filter(([,v])=>v).map(([k,v])=>t({q:'Qidirish...',status:'Holat',year:'O‘quv yili',department:'Kafedra'}[k])+': '+(k==='status'?t(v):v)).join(' · ');
- return '<!doctype html><html lang="'+escape(locale?.lang||'uz')+'"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+escape(title)+'</title><link rel="stylesheet" href="/report.css"><script type="module" src="/report.mjs"></script></head><body class="report-'+config.orientation+'"><div class="print-actions"><button id="print-report">'+escape(t('PDF / Chop etish'))+'</button><p>'+escape(t('PDF uchun chop etish oynasida “PDF sifatida saqlash”ni tanlang.'))+'</p></div><header><img src="/brand.svg" alt="" width="46" height="46"><div><p>'+escape(profile.universityName||profile.shortName||'TSUULL')+'</p><h1>'+escape(title)+'</h1></div></header><p class="metadata">'+escape(t('Yaratilgan:'))+' '+escape(new Intl.DateTimeFormat(locale?.locale||'uz-UZ',{timeZone:'Asia/Tashkent',dateStyle:'short',timeStyle:'short'}).format(createdAt))+' · '+report.values.length+' '+escape(t('ta yozuv'))+'</p><p class="disclaimer">'+escape(t('Joriy reyestr — rasmiy tasdiqlangan hisobot emas'))+'</p>'+(filters?'<p class="metadata">'+escape(filters)+'</p>':'')+'<table><thead><tr>'+report.headers.map(v=>'<th>'+escape(v)+'</th>').join('')+'</tr></thead><tbody>'+report.values.map(row=>'<tr>'+row.map(v=>'<td>'+escape(v)+'</td>').join('')+'</tr>').join('')+'</tbody>'+(report.values.length&&Object.keys(report.totals).length?'<tfoot><tr>'+report.columns.map((k,i)=>'<td>'+escape(report.totals[k]??(i===0?t('Jami'):''))+'</td>').join('')+'</tr></tfoot>':'')+'</table><footer>'+escape(t('Manba: platformadagi vakolatingiz doirasidagi yozuvlar.'))+'</footer></body></html>';
+ const {t}=report,e=escapeHtml,title=t(modules[module].title);
+ const filters=Object.entries(config.filters).filter(([,v])=>v).map(([k,v])=>t({q:'Qidirish...',status:'Holat',year:'O‘quv yili',department:'Kafedra'}[k])+': '+(k==='status'?t(v):report.referenceNames?.get(v)||v)).join(' · ');
+ const numeric=j=>['decimal','number'].includes(report.field(report.columns[j])?.type)?' class="number"':'';
+ const content=(filters?'<p class="filter-summary">'+e(filters)+'</p>':'')+'<table class="registry-table"><thead><tr><th scope="col" class="row-number">№</th>'+report.headers.map(v=>'<th scope="col">'+e(v)+'</th>').join('')+'</tr></thead><tbody>'+report.values.map((row,i)=>'<tr><td class="row-number">'+(i+1)+'</td>'+row.map((v,j)=>'<td'+numeric(j)+'>'+e(v)+'</td>').join('')+'</tr>').join('')+(!report.values.length?'<tr><td colspan="'+(report.columns.length+1)+'">'+e(t('Yozuv topilmadi'))+'</td></tr>':'')+'</tbody>'+(report.values.length&&Object.keys(report.totals).length?'<tfoot><tr><th scope="row">'+e(t('Jami'))+'</th>'+report.columns.map(k=>'<td class="number">'+e(report.totals[k]??'')+'</td>').join('')+'</tr></tfoot>':'')+'</table>';
+ return documentHtml({lang,profile,title,reference:registryReference({module,createdAt,config,report}),createdAt,metadata:[['Yozuvlar soni',report.values.length]],status:t('REYESTRDAN KO‘CHIRMA'),notice:t('Joriy reyestr — rasmiy tasdiqlangan hisobot emas'),content,orientation:config.orientation});
 }
 export function registerReportExports(app,{pool,fail,allRecords}){
  app.get('/api/management/export/:module',async(req,res)=>{

@@ -24,6 +24,10 @@ after(async()=>{await new Promise(r=>server.close(r));await pool.end();});
 test('successful simulation is automatically saved and remains after application restart',async()=>{
  const r=await call('/simulate',{method:'POST',body:input});assert.equal(r.status,200);assert.equal(r.data.totalStudentHours,'180');assert.equal(r.data.basicTeachingDemand,'144');
  assert.ok(r.data.history?.id,'Calculation must include a durable history receipt');simId=r.data.history.id;
+ const paper=await call('/calculations/'+simId+'/print?lang=en',{raw:true});assert.equal(paper.status,200);
+ assert.ok(paper.data.toString().includes('Course hours calculation statement'));assert.ok(paper.data.toString().includes('SIMULATION'));
+ assert.ok(!paper.data.toString().includes('<details'));assert.ok(paper.data.toString().includes('parameter-table'));
+ assert.equal((await call('/calculations/'+simId+'/print?lang=bad',{raw:true})).status,400);
  await new Promise(r=>server.close(r));await start();const saved=await call('/calculations/'+simId);assert.equal(saved.status,200);assert.equal(saved.data.kind,'SIMULATION');assert.equal(saved.data.result.independentHoursPerStudent,'108');assert.deepEqual(saved.data.input,input);
 });
 test('completed UI snapshots release their bounded slots without losing page consistency',async()=>{
@@ -45,6 +49,8 @@ test('failed calculations do not create history; retry IDs deduplicate and rejec
 });
 test('calculation history is private by account and append-only with audit evidence',async()=>{
  assert.equal((await call('/calculations/'+simId,{role:'OPERATOR'})).status,404);
+ assert.equal((await call('/calculations/'+simId+'/print',{role:'OPERATOR',raw:true})).status,404);
+ assert.equal((await fetch(base+'/api/calculations/'+simId+'/print')).status,401);
  assert.equal((await call('/calculations',{role:'OPERATOR'})).data.items.length,0);
  assert.ok((await call('/calculations')).data.items.some(r=>r.id===simId));
  for(const sql of ['UPDATE portal.calculation_runs SET kind=kind WHERE id=$1','DELETE FROM portal.calculation_runs WHERE id=$1'])await assert.rejects(pool.query(sql,[simId]),/append-only/);
@@ -82,6 +88,9 @@ test('rule-based history freezes exact source versions and honors later scope ch
  const detail=await call('/calculations/'+r.data.history.id,{role:'OPERATOR'});assert.equal(detail.status,200);assert.equal(detail.data.kind,'RULE_BASED');assert.equal(detail.data.actor_role,'OPERATOR');assert.equal(detail.data.sources.find(s=>s.id===rule.id).revision,rule.revision);assert.equal(detail.data.sources.find(s=>s.id===subject.id).data.credits,'1.25');
  await pool.query('UPDATE portal.users SET department_id=$1 WHERE id=$2',[other.id,accounts.OPERATOR.id]);
  assert.equal((await call('/calculations/'+r.data.history.id,{role:'OPERATOR'})).status,404);
+ assert.equal((await call('/calculations/'+r.data.history.id+'/print',{role:'OPERATOR',raw:true})).status,404);
+ const paper=await call('/calculations/'+r.data.history.id+'/print?lang=ru',{raw:true});assert.equal(paper.status,200);
+ assert.ok(paper.data.toString().includes('Правовое основание'));assert.ok(paper.data.toString().includes('&lt;b&gt;literal&lt;/b&gt;'));
  assert.equal((await call('/calculations/'+r.data.history.id,{role:'ADMIN'})).status,200);
  await pool.query('UPDATE portal.users SET department_id=NULL WHERE id=$1',[accounts.OPERATOR.id]);
 });

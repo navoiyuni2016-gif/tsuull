@@ -4564,5 +4564,113 @@ export const messages = {
   "REVIEW_ASSIGNED": {
     "en": "Reviewer assigned",
     "ru": "Согласующий назначен"
+  },
+  "Chop etish sozlamalarida “Sarlavha va quyi kolontitullar”ni o'chiring.": {
+    "en": "Turn off “Headers and footers” in the print settings.",
+    "ru": "Отключите «Колонтитулы» в настройках печати."
+  },
+  "Elektron tarzda shakllantirildi.": {
+    "en": "Generated electronically.",
+    "ru": "Сформировано в электронном виде."
+  },
+  "Auditoriya ulushi": {
+    "en": "Contact hours share",
+    "ru": "Доля аудиторных часов"
+  },
+  "Ma'ruza ulushi": {
+    "en": "Lecture share",
+    "ru": "Доля лекций"
+  },
+  "kredit": {
+    "en": "credits",
+    "ru": "кредиты"
+  },
+  "ta": {
+    "en": "units",
+    "ru": "шт."
+  },
+  "Ko'rsatkich": {
+    "en": "Indicator",
+    "ru": "Показатель"
+  },
+  "Qiymat": {
+    "en": "Value",
+    "ru": "Значение"
+  },
+  "Birlik": {
+    "en": "Unit",
+    "ru": "Единица"
+  },
+  "Mashg'ulotlar bo'yicha hisob": {
+    "en": "Calculation by activity",
+    "ru": "Расчёт по видам занятий"
+  },
+  "Talaba soati": {
+    "en": "Hours per student",
+    "ru": "Часы на студента"
+  },
+  "Hisoblash soni": {
+    "en": "Calculation multiplier",
+    "ru": "Расчётный множитель"
+  },
+  "O'qitish soati": {
+    "en": "Teaching hours",
+    "ru": "Преподавательские часы"
+  },
+  "Hisoblash asosi": {
+    "en": "Calculation basis",
+    "ru": "Основание расчёта"
+  },
+  "Amal qilish davri": {
+    "en": "Effective period",
+    "ru": "Период действия"
+  },
+  "Yaxlitlash": {
+    "en": "Rounding",
+    "ru": "Округление"
+  },
+  "kasr xonasi": {
+    "en": "decimal places",
+    "ru": "знаков после запятой"
+  },
+  "Kod / nom": {
+    "en": "Code / name",
+    "ru": "Код / наименование"
+  },
+  "Mustaqil ta'lim soati o'qituvchining dars yuklamasiga avtomatik qo'shilmaydi.": {
+    "en": "Independent study hours are not automatically added to the teacher’s teaching load.",
+    "ru": "Часы самостоятельной работы не добавляются автоматически в учебную нагрузку преподавателя."
+  },
+  "Hisoblash yozuvi ID": {
+    "en": "Calculation record ID",
+    "ru": "ID записи расчёта"
+  },
+  "Tuzuvchi": {
+    "en": "Prepared by",
+    "ru": "Составитель"
+  },
+  "Fan soatlarini hisoblash ma'lumotnomasi": {
+    "en": "Course hours calculation statement",
+    "ru": "Справка о расчёте часов дисциплины"
+  },
+  "SIMULYATSIYA — NAMUNA HISOB": {
+    "en": "SIMULATION — SAMPLE CALCULATION",
+    "ru": "СИМУЛЯЦИЯ — ПРИМЕР РАСЧЁТА"
+  },
+  "ME'YOR ASOSIDAGI SAQLANGAN HISOB": {
+    "en": "SAVED RULE-BASED CALCULATION",
+    "ru": "СОХРАНЁННЫЙ РАСЧЁТ ПО НОРМАТИВУ"
+  },
+  "Bu simulyatsiya namunaviy hisobdir. Rasmiy akademik tasdiq hisoblanmaydi.": {
+    "en": "This simulation is a sample calculation. It does not constitute academic approval.",
+    "ru": "Эта симуляция является примером расчёта и не является академическим утверждением."
+  },
+  "Yozuvlar soni": {
+    "en": "Number of records",
+    "ru": "Количество записей"
+  },
+  "REYESTRDAN KO'CHIRMA": {
+    "en": "REGISTER EXTRACT",
+    "ru": "ВЫПИСКА ИЗ РЕЕСТРА"
   }
 };

@@ -1,1 +1,41 @@
-*{box-sizing:border-box}body{font:12px "Segoe UI",Arial,sans-serif;color:#172237;background:#fff;margin:30px auto;max-width:1500px;padding:0 24px}header{display:flex;align-items:center;gap:16px;border-bottom:2px solid #283445;padding:0 0 16px}header p{margin:0 0 6px;font-size:13px}h1{margin:0;font-size:24px}.metadata{color:#526174;line-height:1.6}.disclaimer{background:#f2f4f7;border-left:3px solid #637187;padding:10px}table{width:100%;border-collapse:collapse;margin-top:18px}th{background:#e8edf3;text-align:left}th,td{padding:9px 10px;border:1px solid #cbd3df;vertical-align:top;overflow-wrap:anywhere}tbody tr:nth-child(even){background:#f6f8fa}tfoot{font-weight:bold;background:#e8edf3}footer{font-size:10px;color:#526174;margin-top:22px}.print-actions{display:flex;align-items:center;gap:16px;margin-bottom:24px}.print-actions button{background:#283445;color:white;border:0;border-radius:6px;padding:12px 20px;cursor:pointer}.print-actions p{font-size:12px}thead{display:table-header-group}tr{break-inside:avoid}@page{size:A4 landscape;margin:12mm;@bottom-right{content:counter(page) " / " counter(pages)}}@page portrait{size:A4 portrait}.report-portrait{page:portrait}@media print{body{margin:0;padding:0;max-width:none;font-size:10px}.print-actions{display:none}h1{font-size:19px}th,td{padding:6px}header{break-after:avoid}a{color:inherit}*{print-color-adjust:exact;-webkit-print-color-adjust:exact}}@media(max-width:600px){body{margin:18px auto;padding:0 12px}.print-actions{display:block}table{font-size:10px}}
+:root{font-family:"Times New Roman",Times,serif;color:#161b23;background:#e8ebef;font-size:12pt}
+*{box-sizing:border-box}body{margin:0;padding:24px}button{font:inherit}
+.paper{margin:auto;background:#fff;max-width:210mm;padding:16mm 17mm;box-shadow:0 2px 16px #18223018;min-height:275mm}
+.report-landscape .paper{max-width:297mm;min-height:190mm}
+.print-actions{font:13px "Segoe UI",Arial,sans-serif;max-width:1000px;margin:0 auto 22px;display:flex;align-items:center;gap:18px;color:#374151}
+.print-actions p{margin:0 0 5px}.print-actions small{display:block;line-height:1.5}
+.print-actions button{border:0;border-radius:6px;background:#24344a;color:white;padding:12px 19px;cursor:pointer;white-space:nowrap}
+.print-actions button:focus-visible{outline:3px solid #547ec1;outline-offset:3px}
+.letterhead{display:flex;align-items:center;gap:14px;border-bottom:2px solid #24344a;padding-bottom:12px}
+.letterhead img{flex-shrink:0}.letterhead p{margin:0}.institution{font-size:13pt;line-height:1.35;font-weight:bold}.office{margin-top:4px!important;font-size:11pt;color:#46515e}
+.document-register{display:flex;justify-content:space-between;align-items:start;gap:20px;margin-top:12px;font-size:9.5pt;line-height:1.5}
+.document-register>span:first-child{max-width:78%}.reference,.record-id{overflow-wrap:anywhere;font-family:"Segoe UI",Arial,sans-serif;font-size:8pt;letter-spacing:.15px}
+h1{font-size:17pt;text-align:center;text-transform:uppercase;line-height:1.3;margin:22px 0 8px}
+.document-status{text-align:center;font:700 8.5pt "Segoe UI",Arial,sans-serif;letter-spacing:.6px;margin:0 0 18px}
+.document-metadata{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;border-top:1px solid #d4d9df;border-bottom:1px solid #d4d9df;padding:10px 0;margin:12px 0;font-size:10pt}
+.document-metadata>div{display:flex;gap:8px;min-width:0}.document-metadata dt{color:#4f5865;flex-shrink:0}.document-metadata dt:after{content:":"}.document-metadata dd{margin:0;overflow-wrap:anywhere;font-weight:bold}
+.disclaimer{font-size:10pt;line-height:1.4;margin:12px 0 16px;padding:9px 11px;border-left:2px solid #727e8e;background:#f3f5f7}
+h2{font-size:11.5pt;margin:16px 0 7px;break-after:avoid}table{border-collapse:collapse;width:100%;font-size:10.5pt;line-height:1.3;table-layout:auto}
+th,td{padding:7px 9px;border:1px solid #b7bec7;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+th{font-weight:bold;background:#eef1f4}thead{display:table-header-group}tfoot{display:table-row-group;font-weight:bold;background:#eef1f4}
+tr{break-inside:avoid}td.number{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.parameter-table th:first-child,.result-table th:first-child{width:62%}
+.row-number{width:30px;text-align:center;white-space:nowrap}.registry-table{font-size:10pt}
+.calculation-basis p{margin:5px 0;font-size:10pt;line-height:1.4;overflow-wrap:anywhere}
+.filter-summary{font-size:10pt;line-height:1.4;overflow-wrap:anywhere}
+.document-notes{border-top:1px solid #b7bec7;padding-top:8px;margin-top:16px;break-inside:avoid;font-size:9.5pt;line-height:1.4}
+.document-notes p{margin:5px 0}.document-footer{border-top:1px solid #b7bec7;margin-top:18px;padding-top:8px;color:#505a67;font-size:8.5pt;line-height:1.4;break-inside:avoid}
+.document-footer p{margin:2px 0}
+@page{size:A4 portrait;margin:15mm 16mm 18mm;@bottom-left{content:"ERP";font-family:Arial,sans-serif;font-size:8pt;color:#59616c}@bottom-right{content:counter(page) " / " counter(pages);font-family:Arial,sans-serif;font-size:8pt;color:#59616c}}
+@page landscape{size:A4 landscape}
+.report-landscape{page:landscape}
+@media print{
+ :root{background:#fff}body{padding:0;margin:0;font-size:11pt}.print-actions{display:none!important}
+ .paper,.report-landscape .paper{padding:0;box-shadow:none;min-height:0;max-width:none;width:auto}
+ .letterhead{padding-bottom:8px}.letterhead img{width:34px;height:34px}.institution{font-size:12pt}
+ .document-register{margin-top:8px}h1{font-size:15pt;margin-top:16px}.document-status{margin-bottom:12px}
+ h2{margin-top:12px}th,td{padding:5px 7px}.disclaimer{margin:10px 0 12px;padding:7px 9px}
+ .document-metadata{padding:8px 0}.document-notes,.document-footer{margin-top:12px}
+ *{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+}
+@media(max-width:720px){body{padding:12px}.paper{padding:20px;min-height:0}.print-actions{align-items:stretch;flex-direction:column;gap:10px}.document-register{flex-direction:column;gap:5px}.document-register>span:first-child{max-width:100%}.document-metadata{grid-template-columns:1fr}.letterhead{gap:10px}.institution{font-size:11pt}h1{font-size:14pt}.registry-table{font-size:8pt}th,td{padding:5px}}
